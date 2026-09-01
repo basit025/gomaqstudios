@@ -3,6 +3,7 @@ import Button from "@/components/ui/Button";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { ArrowRight, Check } from "@/components/ui/Icons";
+import { Magnetic, Spotlight, Tilt } from "@/components/ui/motion/pointer";
 
 /**
  * ============================================================
@@ -74,11 +75,13 @@ export default function Pricing() {
         <div className="mt-14 grid gap-6 sm:mt-16 lg:grid-cols-3 lg:gap-5">
           {TIERS.map((tier, i) => (
             <Reveal key={tier.name} delay={i * 0.08} className="h-full">
-              <div
+              <Tilt className="h-full" max={5}>
+              <Spotlight
+                intensity={tier.featured ? 0.16 : 0.1}
                 className={`relative flex h-full flex-col rounded-2xl border bg-white p-7 transition-all duration-300 sm:p-8 ${
                   tier.featured
                     ? "border-primary shadow-lift lg:scale-[1.045] lg:p-9"
-                    : "border-line hover:-translate-y-1.5 hover:border-primary/60 hover:shadow-soft"
+                    : "border-line hover:border-primary/60 hover:shadow-soft"
                 }`}
               >
                 {tier.featured && (
@@ -116,16 +119,19 @@ export default function Pricing() {
                   ))}
                 </ul>
 
+                <Magnetic className="mt-8 w-full" strength={tier.featured ? 0.25 : 0.15}>
                 <Button
                   href="#contact"
                   variant={tier.featured ? "primary" : "ghost"}
                   size="lg"
-                  className="mt-8 w-full"
+                  className="group w-full"
                 >
                   {tier.cta}
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
-              </div>
+                </Magnetic>
+              </Spotlight>
+              </Tilt>
             </Reveal>
           ))}
         </div>

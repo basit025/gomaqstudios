@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import MotionProvider from "@/components/ui/motion/MotionProvider";
 import { display, sans, script } from "./fonts";
 import "./globals.css";
 
@@ -21,7 +22,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${display.variable} ${sans.variable} ${script.variable}`}>
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased">
+        <MotionProvider>{children}</MotionProvider>
+      </body>
     </html>
   );
 }

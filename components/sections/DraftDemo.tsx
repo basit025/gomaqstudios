@@ -16,6 +16,7 @@ import {
   IconPoetry,
   IconSelfHelp,
 } from "@/components/ui/Icons";
+import { Magnetic, Spotlight, Tilt } from "@/components/ui/motion/pointer";
 
 /**
  * ============================================================================
@@ -206,19 +207,22 @@ export default function DraftDemo() {
                         const Icon = g.icon;
                         const active = genre === g.name;
                         return (
+                          <Tilt key={g.name} max={8} scale={1.04}>
+                            <Spotlight
+                              className={`h-full rounded-2xl border transition-colors duration-200 ${
+                                active
+                                  ? "border-primary bg-primary-light shadow-ember"
+                                  : "border-line bg-white hover:border-primary/60 hover:shadow-soft"
+                              }`}
+                            >
                           <button
-                            key={g.name}
                             type="button"
                             onClick={() => selectGenre(g.name)}
                             aria-pressed={active}
-                            className={`group flex flex-col items-start gap-3 rounded-2xl border p-4 text-left transition-all duration-200 sm:p-5 ${
-                              active
-                                ? "border-primary bg-primary-light shadow-ember"
-                                : "border-line bg-white hover:-translate-y-1 hover:border-primary/60 hover:shadow-soft"
-                            }`}
+                            className="group flex h-full w-full flex-col items-start gap-3 rounded-2xl p-4 text-left sm:p-5"
                           >
                             <span
-                              className={`flex h-10 w-10 items-center justify-center rounded-xl transition-colors ${
+                              className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 group-hover:-rotate-6 group-hover:scale-110 ${
                                 active
                                   ? "bg-primary text-white"
                                   : "bg-primary-light text-primary group-hover:bg-primary group-hover:text-white"
@@ -235,6 +239,8 @@ export default function DraftDemo() {
                               </span>
                             </span>
                           </button>
+                            </Spotlight>
+                          </Tilt>
                         );
                       })}
                     </div>
@@ -291,10 +297,12 @@ export default function DraftDemo() {
                       />
 
                       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-                        <Button type="submit" size="lg" className="w-full sm:w-auto">
-                          Build my draft
-                          <ArrowRight className="h-4 w-4" />
-                        </Button>
+                        <Magnetic className="w-full sm:w-auto">
+                          <Button type="submit" size="lg" className="group w-full sm:w-auto">
+                            Build my draft
+                            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                          </Button>
+                        </Magnetic>
                         <button
                           type="button"
                           onClick={startBuild}
@@ -438,10 +446,12 @@ export default function DraftDemo() {
                       </ul>
 
                       <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
-                        <Button href="#contact" size="lg" className="w-full sm:w-auto">
-                          Build the real thing
-                          <ArrowRight className="h-4 w-4" />
-                        </Button>
+                        <Magnetic className="w-full sm:w-auto">
+                          <Button href="#contact" size="lg" className="group w-full sm:w-auto">
+                            Build the real thing
+                            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                          </Button>
+                        </Magnetic>
                         <button
                           type="button"
                           onClick={reset}

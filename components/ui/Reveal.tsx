@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
 
 type Props = {
@@ -15,8 +15,18 @@ type Props = {
 /**
  * Scroll-triggered fade + slide-up. Fires once when ~15% of the element
  * enters the viewport. Used to animate every section on the page.
+ *
+ * Under `prefers-reduced-motion` it renders the finished state immediately
+ * rather than animating to it — content must never depend on an animation
+ * running in order to become visible.
  */
 export default function Reveal({ children, delay = 0, y = 24, className }: Props) {
+  const reduced = useReducedMotion();
+
+  if (reduced) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div
       className={className}

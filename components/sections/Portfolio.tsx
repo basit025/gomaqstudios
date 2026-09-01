@@ -8,6 +8,7 @@ import Button from "@/components/ui/Button";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { ArrowRight } from "@/components/ui/Icons";
+import { Magnetic, Tilt } from "@/components/ui/motion/pointer";
 
 /**
  * ============================================================
@@ -65,12 +66,22 @@ export default function Portfolio() {
                   type="button"
                   onClick={() => setFilter(f)}
                   aria-pressed={active}
-                  className={`shrink-0 rounded-full px-4 py-2 text-[13px] font-semibold transition-all duration-200 ${
+                  className={`relative isolate shrink-0 rounded-full px-4 py-2 text-[13px] font-semibold transition-colors duration-200 ${
                     active
-                      ? "bg-primary text-white shadow-ember"
+                      ? "text-white"
                       : "bg-white text-ink/70 ring-1 ring-inset ring-line hover:text-primary hover:ring-primary/50"
                   }`}
                 >
+                  {/* A single orange pill physically slides between tabs
+                      instead of one fading out while another fades in. */}
+                  {active && (
+                    <motion.span
+                      layoutId="portfolio-filter-pill"
+                      aria-hidden="true"
+                      className="absolute inset-0 -z-10 rounded-full bg-primary shadow-ember"
+                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                    />
+                  )}
                   {f}
                 </button>
               );
@@ -92,25 +103,28 @@ export default function Portfolio() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.94 }}
                 transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                className="group relative cursor-pointer overflow-hidden rounded-xl"
+                className="group cursor-pointer"
               >
-                <BookCover
-                  title={project.name}
-                  genre={project.genre}
-                  variant={project.variant}
-                  className="transition-transform duration-500 group-hover:scale-[1.03]"
-                />
+                {/* The cover leans toward the cursor, so the grid reads as a
+                    shelf of physical objects rather than flat thumbnails. */}
+                <Tilt className="relative" max={10} scale={1.04}>
+                  <BookCover
+                    title={project.name}
+                    genre={project.genre}
+                    variant={project.variant}
+                  />
 
-                {/* Hover overlay — project name + genre. */}
-                <div className="pointer-events-none absolute inset-0 flex flex-col justify-end rounded-xl bg-gradient-to-t from-ink/90 via-ink/35 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:p-5">
+                  {/* Hover overlay — project name + genre. */}
+                  <div className="pointer-events-none absolute inset-0 flex flex-col justify-end rounded-l-[3px] rounded-r-xl bg-gradient-to-t from-ink/90 via-ink/35 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:p-5">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-primary">
                     {project.category}
                   </p>
                   <h3 className="mt-1.5 font-display text-base font-normal leading-tight text-white sm:text-lg">
                     {project.name}
                   </h3>
-                  <p className="mt-0.5 text-[12px] text-white/70">{project.genre}</p>
-                </div>
+                    <p className="mt-0.5 text-[12px] text-white/70">{project.genre}</p>
+                  </div>
+                </Tilt>
               </motion.article>
             ))}
           </AnimatePresence>
@@ -133,10 +147,12 @@ export default function Portfolio() {
         <Reveal delay={0.1}>
           <div className="mt-12 flex flex-col items-center gap-4">
             <Badge tone="soft">More work available on request</Badge>
-            <Button href="#contact" size="lg">
-              Ask to see books like yours
-              <ArrowRight className="h-4 w-4" />
-            </Button>
+            <Magnetic>
+              <Button href="#contact" size="lg" className="group">
+                Ask to see books like yours
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Button>
+            </Magnetic>
           </div>
         </Reveal>
       </div>

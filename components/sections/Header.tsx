@@ -5,6 +5,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import Logo from "@/components/ui/Logo";
 import Button from "@/components/ui/Button";
 import { Close, Menu, ArrowRight } from "@/components/ui/Icons";
+import { Magnetic } from "@/components/ui/motion/pointer";
+import { ScrollProgress } from "@/components/ui/motion/scroll";
 import { navLinks } from "@/lib/site";
 
 /**
@@ -59,18 +61,26 @@ export default function Header() {
               <a
                 key={link.href}
                 href={link.href}
-                className="relative rounded-full px-3.5 py-2 text-[14px] font-medium text-ink/75 transition-colors hover:text-primary"
+                className="group relative rounded-full px-3.5 py-2 text-[14px] font-medium text-ink/75 transition-colors hover:text-primary"
               >
                 {link.label}
+                {/* Rule wipes in from the left on hover. */}
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-3.5 bottom-1 h-px origin-left scale-x-0 bg-primary transition-transform duration-300 ease-out group-hover:scale-x-100"
+                />
               </a>
             ))}
           </nav>
 
           <div className="flex items-center gap-2">
             {/* CTA stays visible at every breakpoint, per spec. */}
-            <Button href="#contact" size="sm" className="hidden sm:inline-flex">
-              Start My Book
-            </Button>
+            <Magnetic className="hidden sm:inline-flex" strength={0.35}>
+              <Button href="#contact" size="sm" className="group">
+                Start My Book
+                <ArrowRight className="h-3.5 w-3.5 -translate-x-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
+              </Button>
+            </Magnetic>
             <Button
               href="#contact"
               size="sm"
@@ -91,6 +101,9 @@ export default function Header() {
             </button>
           </div>
         </div>
+
+        {/* Reading progress, drawn along the header's bottom edge. */}
+        <ScrollProgress className="absolute inset-x-0 bottom-0" />
       </header>
 
       {/* Mobile slide-in panel */}

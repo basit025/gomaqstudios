@@ -1,5 +1,6 @@
 import Header from "@/components/sections/Header";
 import Hero from "@/components/sections/Hero";
+import Ticker from "@/components/sections/Ticker";
 import DraftDemo from "@/components/sections/DraftDemo";
 import Services from "@/components/sections/Services";
 import HowItWorks from "@/components/sections/HowItWorks";
@@ -20,6 +21,7 @@ export default function HomePage() {
       <Header />
       <main id="top">
         <Hero />
+        <Ticker />
         <DraftDemo />
         <Services />
         <HowItWorks />

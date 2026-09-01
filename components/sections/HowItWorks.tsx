@@ -2,6 +2,9 @@ import Button from "@/components/ui/Button";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { ArrowRight } from "@/components/ui/Icons";
+import { DrawLine } from "@/components/ui/motion/scroll";
+import { Magnetic } from "@/components/ui/motion/pointer";
+import StepNumber from "@/components/ui/StepNumber";
 
 /**
  * ============================================================
@@ -40,16 +43,13 @@ export default function HowItWorks() {
         />
 
         <div className="relative mt-14 sm:mt-16">
-          {/* Desktop connector rule, sitting behind the numerals. */}
-          <div
-            aria-hidden="true"
-            className="absolute left-0 right-0 top-7 hidden h-px bg-primary/20 lg:block"
-          />
+          {/* Desktop connector rule — draws itself left to right on scroll. */}
+          <DrawLine className="absolute left-0 right-0 top-7 hidden lg:block" />
 
           <ol className="relative grid gap-8 lg:grid-cols-4 lg:gap-6">
             {STEPS.map((step, i) => (
               <Reveal key={step.title} delay={i * 0.1}>
-                <li className="relative flex gap-5 lg:block">
+                <li className="group/step relative flex gap-5 lg:block">
                   {/* Mobile vertical spine between steps. */}
                   {i < STEPS.length - 1 && (
                     <span
@@ -58,12 +58,10 @@ export default function HowItWorks() {
                     />
                   )}
 
-                  <span className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white font-display text-2xl font-normal text-primary ring-1 ring-primary/25">
-                    {i + 1}
-                  </span>
+                  <StepNumber n={i + 1} delay={i * 0.1} />
 
                   <div className="lg:mt-6">
-                    <h3 className="font-display text-xl font-normal leading-tight text-ink">
+                    <h3 className="font-display text-xl font-normal leading-tight text-ink transition-colors duration-300 group-hover/step:text-primary">
                       {step.title}
                     </h3>
                     <p className="mt-2.5 max-w-xs text-[15px] leading-relaxed text-muted">
@@ -78,10 +76,12 @@ export default function HowItWorks() {
 
         <Reveal delay={0.15}>
           <div className="mt-14 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <Button href="#contact" size="lg" className="w-full sm:w-auto">
-              Start step one
-              <ArrowRight className="h-4 w-4" />
-            </Button>
+            <Magnetic className="w-full sm:w-auto">
+              <Button href="#contact" size="lg" className="group w-full sm:w-auto">
+                Start step one
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Button>
+            </Magnetic>
             <Button href="#pricing" variant="outline" size="lg" className="w-full sm:w-auto">
               See what it costs
             </Button>

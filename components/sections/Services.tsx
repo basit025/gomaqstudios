@@ -8,6 +8,7 @@ import {
   IconFormat,
   IconVideo,
 } from "@/components/ui/Icons";
+import { Tilt } from "@/components/ui/motion/pointer";
 
 /**
  * ============================================================
@@ -74,8 +75,9 @@ export default function Services() {
             const Icon = service.icon;
             return (
               <Reveal key={service.title} delay={i * 0.08} className="h-full">
-                <Card interactive className="group flex h-full flex-col p-7">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary-light text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
+                <Tilt className="h-full" max={6}>
+                  <Card interactive spotlight className="group flex h-full flex-col p-7">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary-light text-primary transition-all duration-300 group-hover:-rotate-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
                     <Icon className="h-6 w-6" />
                   </span>
 
@@ -109,7 +111,8 @@ export default function Services() {
                     {service.cta}
                     <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </a>
-                </Card>
+                  </Card>
+                </Tilt>
               </Reveal>
             );
           })}

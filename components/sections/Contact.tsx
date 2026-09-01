@@ -7,6 +7,7 @@ import Button from "@/components/ui/Button";
 import Reveal from "@/components/ui/Reveal";
 import { ArrowRight, Check, Mail, socialIcons } from "@/components/ui/Icons";
 import { genres, site, socials } from "@/lib/site";
+import { Magnetic } from "@/components/ui/motion/pointer";
 
 /**
  * ============================================================
@@ -373,15 +374,19 @@ export default function Contact() {
                       </div>
                     </div>
 
-                    <Button
-                      type="submit"
-                      size="lg"
-                      disabled={sending}
-                      className="mt-8 w-full"
-                    >
-                      {sending ? "Sending…" : "Send it over"}
-                      {!sending && <ArrowRight className="h-4 w-4" />}
-                    </Button>
+                    <Magnetic className="mt-8 w-full" strength={0.2}>
+                      <Button
+                        type="submit"
+                        size="lg"
+                        disabled={sending}
+                        className="group w-full"
+                      >
+                        {sending ? "Sending…" : "Send it over"}
+                        {!sending && (
+                          <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                        )}
+                      </Button>
+                    </Magnetic>
 
                     <p className="mt-4 text-center text-[13px] text-muted">
                       No newsletter, no automated funnel. Just a reply from a person.

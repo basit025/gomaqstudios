@@ -203,13 +203,59 @@ once you create `app/api/contact/route.ts`.
 
 ---
 
+## Motion
+
+The site is meant to feel alive under the cursor. Reusable primitives live in
+[`components/ui/motion/`](components/ui/motion/) and are applied across every
+section, so behaviour is consistent and tunable in one place.
+
+| Primitive | File | What it does |
+|---|---|---|
+| `Spotlight` | `motion/pointer.tsx` | Warm glow tracking the cursor across a card |
+| `Tilt` | `motion/pointer.tsx` | Card leans toward the cursor in 3D |
+| `Magnetic` | `motion/pointer.tsx` | CTA drifts toward the cursor, springs back |
+| `Drift` | `motion/pointer.tsx` | Background layers parallax with the pointer |
+| `SplitText` | `motion/text.tsx` | Headlines reveal word by word |
+| `CountUp` | `motion/text.tsx` | Numbers count from zero when scrolled into view |
+| `RotatingWord` | `motion/text.tsx` | Swaps words in place (trust bar store names) |
+| `Marquee` | `motion/text.tsx` | The scrolling ticker band |
+| `ScrollProgress` | `motion/scroll.tsx` | Bar filling along the header's bottom edge |
+| `Parallax` / `DrawLine` | `motion/scroll.tsx` | Scroll-linked drift; the rule that draws itself |
+
+### Three rules everything follows
+
+1. **No re-render on pointer move.** Every pointer effect drives a framer-motion
+   `MotionValue`, which writes straight to the compositor. Moving the mouse
+   across the page causes zero React renders, and only transform/opacity are
+   animated, so nothing triggers layout.
+2. **Nothing runs on touch.** All pointer effects are gated on
+   `(pointer: fine)` — on a phone they are invisible at best and janky at worst.
+3. **`prefers-reduced-motion` is respected.** The app is wrapped in
+   `<MotionConfig reducedMotion="user">`, and `Reveal` / `SplitText` / the hero
+   sequence additionally render their **final** state directly rather than
+   animating to it.
+
+That third point matters more than it looks: these components start at
+`opacity: 0` and become visible only when an animation runs. Entrance delays are
+therefore kept short and scroll-triggered rather than sitting on long load
+timers — otherwise a throttled or backgrounded tab can leave content stuck
+invisible. If you add motion, keep delays under ~0.8s and prefer `whileInView`
+over `animate` with a long `delay`.
+
+### Tuning it down
+
+Turn any effect off by removing the wrapper — every one degrades to plain
+markup. To calm the whole site quickly: raise `Tilt`'s `max` toward 0, drop
+`Spotlight`'s `intensity`, or lower `Magnetic`'s `strength`.
+
+---
+
 ## Notes
 
 - **No location anywhere.** No address, city, region or map — contact is email,
   form and social only, by design. Please keep it that way if you edit copy.
 - **Responsive** at 375 / 768 / 1024 / 1440. Mobile-first throughout.
-- **Motion** uses `whileInView` with `once: true`, and the whole site respects
-  `prefers-reduced-motion` (handled globally in `globals.css`).
+- **Motion** — see the Motion section above.
 - **No images required.** Book covers are CSS-only (`ui/BookCover.tsx`) and
   anything else uses `ui/Placeholder.tsx`, so nothing renders broken.
 - Pinned to **Next 14.2.35** (the patched 14.x line).

@@ -68,7 +68,7 @@ function TestimonialCard({
   book,
 }: (typeof TESTIMONIALS)[number]) {
   return (
-    <Card className="flex h-full flex-col p-7">
+    <Card spotlight className="flex h-full flex-col p-7">
       <Quote className="h-7 w-7 text-primary/35" />
       <p className="mt-5 flex-1 text-[15px] leading-relaxed text-ink/85">
         &ldquo;{quote}&rdquo;
