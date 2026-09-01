@@ -58,9 +58,15 @@ const config: Config = {
           "0%": { transform: "translateX(0)" },
           "100%": { transform: "translateX(-50%)" },
         },
+        // Typing caret for <TypeCycle>. Hard on/off, like a real terminal.
+        "caret-blink": {
+          "0%, 45%": { opacity: "1" },
+          "55%, 100%": { opacity: "0" },
+        },
       },
       animation: {
         "marquee-x": "marquee-x 32s linear infinite",
+        "caret-blink": "caret-blink 1.05s steps(1, end) infinite",
       },
     },
   },

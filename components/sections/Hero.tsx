@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import Button from "@/components/ui/Button";
 import { ArrowRight } from "@/components/ui/Icons";
 import { Drift, Magnetic, Spotlight } from "@/components/ui/motion/pointer";
-import { CountUp, RotatingWord, SplitText } from "@/components/ui/motion/text";
+import { CountUp, RotatingWord, SplitText, TypeCycle } from "@/components/ui/motion/text";
 
 /**
  * ============================================================
@@ -12,19 +12,25 @@ import { CountUp, RotatingWord, SplitText } from "@/components/ui/motion/text";
  *
  * HEADLINE OPTIONS — pick one, delete the rest:
  *
- *   A) "Your book. Your brand. Your launch."                      <-- ACTIVE
- *   B) "Designed, formatted, branded, launched."
- *   C) "Everything your book needs after the last page."
- *   D) "Your book. Designed, formatted, and ready to publish."   (retired:
- *      named only two of the four services, so the entry point read as a
- *      book-design shop and buried the branding and video work.)
+ * The headline is a TYPEWRITER that cycles one word through the four
+ * services, then resolves on a fixed second line:
  *
- * The active headline is the `chunks` array passed to <SplitText> below —
- * it reveals word by word on load. To change it, edit those strings.
+ *     Your book.   ->   Your brand.   ->   Your video.   ->   Your launch.
+ *     Ready for readers.                                    (fixed)
  *
- * KEEP ALL FOUR SERVICES VISIBLE ABOVE THE FOLD. The headline, the
- * subheadline and the four stats below each carry design, formatting,
- * branding and video. If you edit one, check the others still balance.
+ * Edit HEADLINE_WORDS below to change the cycle. Words are kept to 4-6
+ * characters on purpose: the line reflows as each word types, and a wildly
+ * longer word makes the line visibly jump. ("trailer" was dropped for
+ * "video" for exactly this reason.)
+ *
+ * Retired alternatives:
+ *   - "Your book. Your brand. Your launch."  (static three-beat version)
+ *   - "Your book. Designed, formatted, and ready to publish."  (named only
+ *     two of the four services, so the entry point read as a book shop)
+ *
+ * KEEP ALL FOUR SERVICES VISIBLE ABOVE THE FOLD. The headline cycles them
+ * one at a time; the subheadline and the four stats below show all four at
+ * once. If you edit one, check the others still balance.
  * ============================================================
  */
 
@@ -44,6 +50,12 @@ type Stat =
   /** Cycles words in place — still supported, currently unused. Useful when a
    *  cell needs to say several things (e.g. store names) without wrapping. */
   | { kind: "rotate"; words: readonly string[]; label: string };
+
+/**
+ * The words the hero headline types through — one per service, ending on the
+ * outcome. Keep them short and similar in length (see the note above).
+ */
+const HEADLINE_WORDS = ["book", "brand", "video", "launch"] as const;
 
 const trustStats: Stat[] = [
   { kind: "count", value: 120, suffix: "+", label: "Covers designed" },
@@ -147,41 +159,23 @@ export default function Hero() {
             />
           </motion.p>
 
-          {/* Headline reveals word by word. */}
-          <SplitText
-            as="h1"
-            immediate
-            delay={0.15}
-            stagger={0.05}
+          {/* Headline: one word types through the four services, over a
+              fixed second line. The whole block fades up once; the typing
+              carries the motion from there. */}
+          <motion.h1
             className="mt-6 font-display text-display-xl font-normal text-ink"
-            chunks={[
-              "Your book. Your brand. Your ",
-              {
-                text: "launch",
-                className: "italic text-primary",
-                after: (
-                  <svg
-                    className="absolute -bottom-2 left-0 h-3 w-full text-primary/40"
-                    viewBox="0 0 200 12"
-                    fill="none"
-                    preserveAspectRatio="none"
-                    aria-hidden="true"
-                  >
-                    <motion.path
-                      d="M2 8.5C42 3.5 96 2.5 198 6"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      initial={{ pathLength: 0 }}
-                      animate={{ pathLength: 1 }}
-                      transition={{ duration: 0.9, delay: 1.05, ease: "easeInOut" }}
-                    />
-                  </svg>
-                ),
-              },
-              ".",
-            ]}
-          />
+            {...rise(0.1, 16)}
+          >
+            <span className="block whitespace-nowrap">
+              Your{" "}
+              <TypeCycle
+                words={HEADLINE_WORDS}
+                suffix="."
+                className="italic text-primary"
+              />
+            </span>
+            <span className="block">Ready for readers.</span>
+          </motion.h1>
 
           <motion.p
             className="mx-auto mt-8 max-w-xl text-lg leading-relaxed text-muted"

@@ -76,7 +76,7 @@ file**, marked with a `TODO` or `PLACEHOLDER` comment.
 | **Service descriptions** | [`components/sections/Services.tsx`](components/sections/Services.tsx) | `const SERVICES` |
 | **Process steps** | [`components/sections/HowItWorks.tsx`](components/sections/HowItWorks.tsx) | `const STEPS` |
 | **Email, socials, nav links, genres** | [`lib/site.ts`](lib/site.ts) | all of it — social `href`s are `#` |
-| **Hero headline alternates** | [`components/sections/Hero.tsx`](components/sections/Hero.tsx) | comment block at the top — options A / B / C / D, A is live |
+| **Hero headline words** | [`components/sections/Hero.tsx`](components/sections/Hero.tsx) | `const HEADLINE_WORDS` — plus retired alternatives in the comment above |
 | **Ticker band items** | [`components/sections/Ticker.tsx`](components/sections/Ticker.tsx) | `const ITEMS` |
 
 ### Two things to change before launch
@@ -94,10 +94,12 @@ into reading as a book-formatting shop, because books are the most concrete
 thing to write about. Four places above the fold deliberately carry all four
 services. If you edit one, check the others still balance:
 
-1. **Hero headline** — *"Your book. Your brand. Your launch."* Three beats, one
-   per domain. (The retired headline, *"Your book. Designed, formatted, and
-   ready to publish"*, named only two of the four — it is kept as option D in
-   the comment block so the trap is documented.)
+1. **Hero headline** — a typewriter cycles one word through all four:
+   *Your **book**. → Your **brand**. → Your **video**. → Your **launch**.*
+   over the fixed second line *"Ready for readers."* Edit `HEADLINE_WORDS` in
+   `Hero.tsx`. (Retired alternatives are kept in the comment block above it,
+   including the original *"Your book. Designed, formatted, and ready to
+   publish"* — which named only two of the four services.)
 2. **Hero subheadline** — one sentence per service, in service order.
 3. **Trust bar** — one stat per service: covers designed, books formatted,
    author brands built, videos edited. Do not collapse these back to four
@@ -247,7 +249,8 @@ section, so behaviour is consistent and tunable in one place.
 | `Drift` | `motion/pointer.tsx` | Background layers parallax with the pointer |
 | `SplitText` | `motion/text.tsx` | Headlines reveal word by word |
 | `CountUp` | `motion/text.tsx` | Numbers count from zero when scrolled into view |
-| `RotatingWord` | `motion/text.tsx` | Swaps words in place (trust bar store names) |
+| `TypeCycle` | `motion/text.tsx` | Typewriter cycling the hero headline word |
+| `RotatingWord` | `motion/text.tsx` | Swaps words in place (available; no current use) |
 | `Marquee` | `motion/text.tsx` | The scrolling ticker band |
 | `ScrollProgress` | `motion/scroll.tsx` | Bar filling along the header's bottom edge |
 | `Parallax` / `DrawLine` | `motion/scroll.tsx` | Scroll-linked drift; the rule that draws itself |
@@ -271,6 +274,29 @@ therefore kept short and scroll-triggered rather than sitting on long load
 timers — otherwise a throttled or backgrounded tab can leave content stuck
 invisible. If you add motion, keep delays under ~0.8s and prefer `whileInView`
 over `animate` with a long `delay`.
+
+### The hero typewriter
+
+`TypeCycle` types a word in, holds it, backspaces to empty, then types the
+next — the same rhythm as the reference site this was modelled on (verified by
+sampling its DOM frame by frame, not by eye).
+
+Two things it does that a naive typewriter does not:
+
+- **Reserves the width of the longest word** (`reserve`, on by default). The
+  headline is centred, so without this the words before the slot slide sideways
+  on every keystroke — about 110px of travel at desktop size. Measured: the
+  slot now holds one fixed position for the whole cycle. Turn `reserve` off for
+  a left-aligned headline, where reflow is invisible.
+- **Stays readable to crawlers and screen readers.** The animated text is
+  `aria-hidden` and every word is also rendered in a `sr-only` span, so the
+  `<h1>` reads *"Your book, brand, video, launch. Ready for readers."* rather
+  than the empty slot that server-rendered HTML would otherwise contain.
+
+**Keep the words 4–6 characters.** The first line is `whitespace-nowrap`, and at
+375px the longest current word already uses 320px of the 335px available. A
+longer word will overflow on mobile. ("trailer" was dropped for "video" for
+this reason.)
 
 ### Tuning it down
 

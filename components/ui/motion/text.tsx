@@ -276,3 +276,131 @@ export function Marquee({ items, className = "", speed = 38 }: MarqueeProps) {
     </div>
   );
 }
+
+/* ------------------------------------------------------------------ */
+
+type TypeCycleProps = {
+  /** Words to cycle through, without punctuation. */
+  words: readonly string[];
+  /** Typed after each word and deleted with it, e.g. a full stop. */
+  suffix?: string;
+  /** Milliseconds per character while typing. */
+  typeMs?: number;
+  /** Milliseconds per character while deleting — faster than typing reads right. */
+  deleteMs?: number;
+  /** How long the completed word holds before it starts deleting. */
+  holdMs?: number;
+  /** Beat between the word clearing and the next one starting. */
+  gapMs?: number;
+  /**
+   * Reserve the width of the longest word so the line never reflows while
+   * typing. Leave on for centred headlines — otherwise the text before the
+   * slot slides sideways on every keystroke. Turn off for left-aligned
+   * headlines, where reflow is invisible and the tighter setting looks better.
+   */
+  reserve?: boolean;
+  className?: string;
+};
+
+type Phase = "typing" | "holding" | "deleting" | "gap";
+
+/**
+ * Typewriter that cycles a list of words: types one in, holds it, backspaces
+ * to empty, then types the next. Used for the rotating word in the hero
+ * headline so the four services each get the full-size slot in turn.
+ *
+ * ACCESSIBILITY / SEO
+ * The animated text is `aria-hidden`, and every word is also rendered once in
+ * a visually-hidden span. A screen reader and a crawler therefore both get the
+ * complete headline ("Your book, brand, video, launch.") rather than whatever
+ * fragment happened to be on screen — server-rendered HTML would otherwise
+ * contain an empty slot.
+ *
+ * Under `prefers-reduced-motion` the first word is rendered statically with no
+ * caret and no timers.
+ */
+export function TypeCycle({
+  words,
+  suffix = "",
+  typeMs = 85,
+  deleteMs = 42,
+  holdMs = 1900,
+  gapMs = 260,
+  reserve = true,
+  className = "",
+}: TypeCycleProps) {
+  const reduced = useReducedMotion();
+  const [index, setIndex] = useState(0);
+  const [len, setLen] = useState(0);
+  const [phase, setPhase] = useState<Phase>("typing");
+
+  const full = (words[index] ?? "") + suffix;
+
+  useEffect(() => {
+    if (reduced) return;
+    let t: ReturnType<typeof setTimeout>;
+
+    if (phase === "typing") {
+      t = setTimeout(
+        () => (len < full.length ? setLen((l) => l + 1) : setPhase("holding")),
+        len < full.length ? typeMs : 0,
+      );
+    } else if (phase === "holding") {
+      t = setTimeout(() => setPhase("deleting"), holdMs);
+    } else if (phase === "deleting") {
+      t = setTimeout(
+        () => (len > 0 ? setLen((l) => l - 1) : setPhase("gap")),
+        len > 0 ? deleteMs : 0,
+      );
+    } else {
+      t = setTimeout(() => {
+        setIndex((i) => (i + 1) % words.length);
+        setPhase("typing");
+      }, gapMs);
+    }
+
+    return () => clearTimeout(t);
+  }, [phase, len, full, words.length, typeMs, deleteMs, holdMs, gapMs, reduced]);
+
+  const caret = (
+    /* Solid while typing or deleting, blinking only at rest — the way a real
+       caret behaves. */
+    <span
+      className={`ml-[0.05em] inline-block h-[0.78em] w-[0.05em] translate-y-[0.06em] bg-primary align-baseline ${
+        phase === "typing" || phase === "deleting" ? "" : "animate-caret-blink"
+      }`}
+    />
+  );
+
+  if (reduced) {
+    return <span className={className}>{(words[0] ?? "") + suffix}</span>;
+  }
+
+  // Longest word decides the reserved width. The invisible copy also keeps the
+  // inline-block's baseline correct, so the slot sits on the same line as the
+  // static text beside it.
+  const longest = words.reduce((a, b) => (b.length > a.length ? b : a), "") + suffix;
+
+  const typed = (
+    <span aria-hidden="true" className={reserve ? "whitespace-pre" : className}>
+      {full.slice(0, len)}
+      {caret}
+    </span>
+  );
+
+  return (
+    <>
+      <span className="sr-only">{words.join(", ") + suffix}</span>
+      {reserve ? (
+        <span className={`relative inline-block whitespace-pre ${className}`}>
+          <span aria-hidden="true" className="invisible">
+            {longest}
+          </span>
+          <span className="absolute left-0 top-0">{typed}</span>
+        </span>
+      ) : (
+        typed
+      )}
+    </>
+  );
+}
