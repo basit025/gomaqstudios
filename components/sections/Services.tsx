@@ -70,47 +70,63 @@ export default function Services() {
           subtitle="Everything between a finished manuscript and a book your readers can hold, download and recommend."
         />
 
-        <div className="mt-14 grid gap-5 sm:mt-16 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+        {/* Two across, not four. At four the cards were ~194px of content each,
+            which wrapped "Complete Brand Development" onto two lines, left every
+            paragraph ragged, and made the row read as a wall. Two gives each
+            card a comfortable measure and lets the icon sit beside the title. */}
+        <div className="mt-14 grid gap-5 sm:mt-16 lg:grid-cols-2 lg:gap-6">
           {SERVICES.map((service, i) => {
             const Icon = service.icon;
             return (
               <Reveal key={service.title} delay={i * 0.08} className="h-full">
                 <Tilt className="h-full" max={6}>
-                  <Card interactive spotlight className="group flex h-full flex-col p-7">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary-light text-primary transition-all duration-300 group-hover:-rotate-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
-                    <Icon className="h-6 w-6" />
-                  </span>
-
-                  <h3 className="mt-6 font-display text-[22px] font-normal leading-tight text-ink">
-                    {service.title}
-                  </h3>
-                  <p className="mt-3 text-[15px] leading-relaxed text-muted">
-                    {service.body}
-                  </p>
-
-                  <ul className="mt-5 space-y-1.5 border-t border-line pt-5">
-                    {service.points.map((point) => (
-                      <li
-                        key={point}
-                        className="flex items-start gap-2 text-[13px] text-ink/70"
-                      >
-                        <span
-                          className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-primary"
-                          aria-hidden="true"
-                        />
-                        {point}
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* Text-link CTA — every card ends with a next step. */}
-                  <a
-                    href={service.href}
-                    className="mt-6 inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary transition-colors hover:text-primary-dark"
+                  <Card
+                    interactive
+                    spotlight
+                    className="group flex h-full flex-col p-7 sm:p-8"
                   >
-                    {service.cta}
-                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </a>
+                    {/* Icon sits beside the heading from sm up, so the card
+                        reads as one block instead of a stack of four. Below sm
+                        it stacks: at 375px the side-by-side layout squeezed the
+                        paragraph into a 194px column, which is the same
+                        congestion this layout exists to fix. */}
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-5">
+                      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-light text-primary transition-all duration-300 group-hover:-rotate-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
+                        <Icon className="h-6 w-6" />
+                      </span>
+
+                      <div className="min-w-0">
+                        <h3 className="font-display text-[22px] font-normal leading-tight text-ink sm:text-2xl">
+                          {service.title}
+                        </h3>
+                        <p className="mt-2.5 text-[15px] leading-relaxed text-muted">
+                          {service.body}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* What's included, as wrapping chips. A bulleted column left
+                        most of the card's width empty and stacked six short
+                        ragged lines; chips flow into the space instead. */}
+                    <ul className="mt-6 flex flex-1 flex-wrap content-start gap-2 border-t border-line pt-6">
+                      {service.points.map((point) => (
+                        <li
+                          key={point}
+                          className="rounded-full bg-primary-light/70 px-3 py-1.5 text-[12.5px] font-medium text-primary-dark transition-colors duration-300 group-hover:bg-primary-light"
+                        >
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* Text-link CTA — every card ends with a next step. */}
+                    <a
+                      href={service.href}
+                      className="mt-6 inline-flex items-center gap-1.5 self-start text-[14px] font-semibold text-primary transition-colors hover:text-primary-dark"
+                    >
+                      {service.cta}
+                      <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                    </a>
                   </Card>
                 </Tilt>
               </Reveal>
