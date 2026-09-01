@@ -72,24 +72,26 @@ export default function Hero() {
 
       <div className="shell">
         <div className="mx-auto max-w-3xl text-center">
+          {/* Script accent #1 — set like a title-page ornament. */}
           <motion.p
-            className="eyebrow justify-center"
+            className="flex items-center justify-center gap-3 font-script text-[26px] leading-none text-primary sm:text-[30px]"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <span className="h-px w-6 bg-primary" aria-hidden="true" />
-            For independent authors
+            <span className="h-px w-8 bg-primary/35" aria-hidden="true" />
+            for independent authors
+            <span className="h-px w-8 bg-primary/35" aria-hidden="true" />
           </motion.p>
 
           <motion.h1
-            className="mt-6 font-display text-display-xl font-semibold text-ink"
+            className="mt-6 font-display text-display-xl font-normal text-ink"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
           >
             Your book.{" "}
-            <span className="relative whitespace-nowrap text-primary">
+            <span className="relative whitespace-nowrap italic text-primary">
               Designed
               {/* Hand-drawn underline under the accent word. */}
               <motion.svg
@@ -158,7 +160,7 @@ export default function Hero() {
         >
           {trustStats.map((stat) => (
             <li key={stat.label} className="bg-white px-5 py-6 text-center">
-              <p className="font-display text-lg font-semibold leading-tight text-primary sm:text-xl">
+              <p className="font-display text-xl font-normal leading-tight text-primary sm:text-2xl">
                 {stat.value}
               </p>
               <p className="mt-1.5 text-[12px] font-medium uppercase tracking-[0.1em] text-muted">

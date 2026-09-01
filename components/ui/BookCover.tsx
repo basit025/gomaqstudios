@@ -94,7 +94,7 @@ export default function BookCover({
             {genre}
           </p>
           <h3
-            className={`mt-2 line-clamp-4 font-display text-[clamp(1.05rem,2.4vw,1.6rem)] font-semibold leading-[1.08] tracking-tight ${s.title}`}
+            className={`mt-2 line-clamp-4 font-display text-[clamp(1.05rem,2.4vw,1.6rem)] font-normal leading-[1.08] tracking-tight ${s.title}`}
           >
             {title}
           </h3>
@@ -102,7 +102,10 @@ export default function BookCover({
         </div>
 
         {/* Byline */}
-        <p className={`text-[9px] font-semibold uppercase tracking-[0.2em] ${s.meta}`}>
+        {/* Script accent #3 — a byline, the way it sits on a real cover. */}
+        <p
+          className={`font-script text-[clamp(1rem,2.4vw,1.45rem)] leading-none ${s.meta}`}
+        >
           {author}
         </p>
       </div>

@@ -28,16 +28,19 @@ const config: Config = {
         line: "rgb(var(--color-line-rgb) / <alpha-value>)",
       },
       fontFamily: {
-        // Fraunces — editorial display serif for headlines
+        // Instrument Serif — display serif for headlines. 400 weight ONLY;
+        // never pair with font-bold/font-semibold (see app/fonts.ts).
         display: ["var(--font-display)", "Georgia", "Times New Roman", "serif"],
-        // Manrope — clean modern sans for body copy + UI
+        // Instrument Sans — body copy and UI.
         sans: ["var(--font-sans)", "system-ui", "-apple-system", "Segoe UI", "sans-serif"],
+        // Ms Madi — signature script. Accents only, never body text.
+        script: ["var(--font-script)", "Segoe Script", "Brush Script MT", "cursive"],
       },
       fontSize: {
         // Fluid oversized headline sizes (mobile 375px -> desktop 1440px+)
-        "display-xl": ["clamp(2.75rem, 7vw, 5.5rem)", { lineHeight: "0.98", letterSpacing: "-0.03em" }],
-        "display-lg": ["clamp(2.25rem, 5vw, 3.75rem)", { lineHeight: "1.03", letterSpacing: "-0.025em" }],
-        "display-md": ["clamp(1.75rem, 3.4vw, 2.5rem)", { lineHeight: "1.1", letterSpacing: "-0.02em" }],
+        "display-xl": ["clamp(2.75rem, 7vw, 5.5rem)", { lineHeight: "1.0", letterSpacing: "-0.02em" }],
+        "display-lg": ["clamp(2.25rem, 5vw, 3.75rem)", { lineHeight: "1.06", letterSpacing: "-0.015em" }],
+        "display-md": ["clamp(1.75rem, 3.4vw, 2.5rem)", { lineHeight: "1.12", letterSpacing: "-0.01em" }],
       },
       maxWidth: {
         shell: "1200px",

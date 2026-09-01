@@ -141,7 +141,7 @@ export default function Header() {
                       <a
                         href={link.href}
                         onClick={() => setOpen(false)}
-                        className="flex items-center justify-between rounded-xl px-3 py-3.5 font-display text-xl font-semibold text-ink transition-colors hover:bg-primary-light hover:text-primary"
+                        className="flex items-center justify-between rounded-xl px-3 py-3.5 font-display text-xl font-normal text-ink transition-colors hover:bg-primary-light hover:text-primary"
                       >
                         {link.label}
                         <ArrowRight className="h-4 w-4 text-primary" />

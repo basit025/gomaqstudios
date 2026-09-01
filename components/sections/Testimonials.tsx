@@ -75,7 +75,8 @@ function TestimonialCard({
       </p>
       <div className="mt-6 border-t border-line pt-5">
         <Stars />
-        <p className="mt-3 font-display text-[17px] font-semibold text-ink">{name}</p>
+        {/* Script accent #2 — author names set as signatures. */}
+        <p className="mt-3 font-script text-[27px] leading-none text-ink">{name}</p>
         <p className="mt-0.5 text-[13px] text-muted">{book}</p>
       </div>
     </Card>

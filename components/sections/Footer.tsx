@@ -22,7 +22,7 @@ export default function Footer() {
 
             <a
               href={`mailto:${site.email}`}
-              className="mt-6 inline-flex items-center gap-2 font-display text-lg font-semibold text-ink transition-colors hover:text-primary"
+              className="mt-6 inline-flex items-center gap-2 font-display text-lg font-normal text-ink transition-colors hover:text-primary"
             >
               {site.email}
             </a>
@@ -88,7 +88,8 @@ export default function Footer() {
           <p className="text-[13px] text-muted">
             &copy; {year} {site.name}. All rights reserved.
           </p>
-          <p className="text-[13px] text-muted">
+          {/* Script accent #5 — a sign-off, not a slogan. */}
+          <p className="font-script text-xl leading-none text-muted">
             Built for authors, not algorithms.
           </p>
         </div>

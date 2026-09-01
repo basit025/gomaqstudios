@@ -87,7 +87,7 @@ export default function Pricing() {
                   </div>
                 )}
 
-                <h3 className="font-display text-2xl font-semibold text-ink">
+                <h3 className="font-display text-2xl font-normal text-ink">
                   {tier.name}
                 </h3>
                 <p className="mt-1.5 text-[13px] font-medium uppercase tracking-[0.1em] text-primary">
@@ -95,7 +95,7 @@ export default function Pricing() {
                 </p>
 
                 <div className="mt-6 flex items-baseline gap-1.5">
-                  <span className="font-display text-[44px] font-semibold leading-none text-ink">
+                  <span className="font-display text-[44px] font-normal leading-none text-ink">
                     {tier.price}
                   </span>
                   <span className="text-[13px] text-muted">per book</span>

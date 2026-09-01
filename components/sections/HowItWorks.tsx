@@ -58,12 +58,12 @@ export default function HowItWorks() {
                     />
                   )}
 
-                  <span className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white font-display text-xl font-semibold text-primary ring-1 ring-primary/25">
+                  <span className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white font-display text-2xl font-normal text-primary ring-1 ring-primary/25">
                     {i + 1}
                   </span>
 
                   <div className="lg:mt-6">
-                    <h3 className="font-display text-xl font-semibold leading-tight text-ink">
+                    <h3 className="font-display text-xl font-normal leading-tight text-ink">
                       {step.title}
                     </h3>
                     <p className="mt-2.5 max-w-xs text-[15px] leading-relaxed text-muted">

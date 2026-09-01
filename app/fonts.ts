@@ -1,21 +1,47 @@
-import { Fraunces, Manrope } from "next/font/google";
+import { Instrument_Sans, Instrument_Serif, Ms_Madi } from "next/font/google";
 
 /**
- * Type pairing:
- *  - Fraunces  -> display serif with genuine editorial character (old-style,
- *                 high contrast). Reads "boutique publishing house", not SaaS.
- *  - Manrope   -> geometric-humanist sans for body + UI. Quiet, very legible.
+ * ============================================================
+ * TYPE SYSTEM — three families, each with one job.
  *
- * Swap either here; the CSS variables feed Tailwind's `font-display` / `font-sans`.
+ *  display  Instrument Serif  -> headlines only
+ *  sans     Instrument Sans   -> body copy, UI, labels
+ *  script   Ms Madi           -> accents only, never body
+ *
+ * Instrument Serif + Instrument Sans are a designed pair (same
+ * family, same designers), so the serif and sans agree on
+ * proportion and rhythm without any tuning.
+ *
+ * !! IMPORTANT — Instrument Serif ships in 400 ONLY. !!
+ * There is no bold cut. Never apply `font-bold` / `font-semibold`
+ * to a `font-display` element: the browser will synthesise a
+ * smeared faux-bold. Size and colour carry the emphasis instead —
+ * at display sizes its thick stems already read as bold.
+ * Its true italic IS available (`italic`) and is used for accents.
+ *
+ * Ms Madi is a fine-line signature hand. It gets delicate fast, so
+ * it is never set below ~17px, never in a solid block, and never
+ * for anything a visitor must read to understand the page.
+ * ============================================================
  */
-export const display = Fraunces({
+
+export const display = Instrument_Serif({
   subsets: ["latin"],
+  weight: ["400"],
+  style: ["normal", "italic"],
   display: "swap",
   variable: "--font-display",
 });
 
-export const sans = Manrope({
+export const sans = Instrument_Sans({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-sans",
+});
+
+export const script = Ms_Madi({
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+  variable: "--font-script",
 });

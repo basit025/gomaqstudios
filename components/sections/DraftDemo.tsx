@@ -135,7 +135,7 @@ export default function DraftDemo() {
             <Badge tone="soft">Free &middot; No account needed</Badge>
           </Reveal>
           <Reveal delay={0.05}>
-            <h2 className="mt-5 font-display text-display-lg font-semibold text-ink">
+            <h2 className="mt-5 font-display text-display-lg font-normal text-ink">
               Get your first draft in 100 minutes
             </h2>
           </Reveal>
@@ -194,7 +194,7 @@ export default function DraftDemo() {
                     exit={{ opacity: 0, y: -14 }}
                     transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    <p className="font-display text-xl font-semibold text-ink sm:text-2xl">
+                    <p className="font-display text-xl font-normal text-ink sm:text-2xl">
                       What are you writing?
                     </p>
                     <p className="mt-2 text-[15px] text-muted">
@@ -227,7 +227,7 @@ export default function DraftDemo() {
                               <Icon className="h-5 w-5" />
                             </span>
                             <span>
-                              <span className="block font-display text-[17px] font-semibold text-ink">
+                              <span className="block font-display text-[19px] font-normal text-ink">
                                 {g.name}
                               </span>
                               <span className="mt-0.5 block text-[12px] text-muted">
@@ -261,7 +261,7 @@ export default function DraftDemo() {
                       </button>
                     </div>
 
-                    <p className="mt-5 font-display text-xl font-semibold text-ink sm:text-2xl">
+                    <p className="mt-5 font-display text-xl font-normal text-ink sm:text-2xl">
                       What&rsquo;s it called?
                     </p>
                     <p className="mt-2 text-[15px] text-muted">
@@ -318,7 +318,7 @@ export default function DraftDemo() {
                     className="py-4"
                   >
                     <div className="mx-auto max-w-lg">
-                      <p className="text-center font-display text-xl font-semibold text-ink sm:text-2xl">
+                      <p className="text-center font-display text-xl font-normal text-ink sm:text-2xl">
                         Building &ldquo;{displayTitle}&rdquo;
                       </p>
                       <p className="mt-2 text-center text-[15px] text-muted">
@@ -415,7 +415,7 @@ export default function DraftDemo() {
 
                     <div>
                       <Badge tone="soft">Concept preview</Badge>
-                      <p className="mt-4 font-display text-2xl font-semibold leading-tight text-ink sm:text-3xl">
+                      <p className="mt-4 font-display text-2xl font-normal leading-tight text-ink sm:text-3xl">
                         Here&rsquo;s the direction.
                       </p>
                       <p className="mt-3 text-[15px] leading-relaxed text-muted">

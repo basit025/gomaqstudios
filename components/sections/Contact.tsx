@@ -113,13 +113,14 @@ export default function Contact() {
           {/* ---------- Closing pitch ---------- */}
           <div className="lg:pt-4">
             <Reveal>
-              <p className="eyebrow">
-                <span className="h-px w-6 bg-primary" aria-hidden="true" />
-                Last page
+              {/* Script accent #4 — mirrors the hero, closing the page as it opened. */}
+              <p className="flex items-center gap-3 font-script text-[26px] leading-none text-primary">
+                <span className="h-px w-8 bg-primary/35" aria-hidden="true" />
+                the last page
               </p>
             </Reveal>
             <Reveal delay={0.05}>
-              <h2 className="mt-4 font-display text-display-lg font-semibold text-ink">
+              <h2 className="mt-4 font-display text-display-lg font-normal text-ink">
                 You finished the hard part.
               </h2>
             </Reveal>
@@ -138,7 +139,7 @@ export default function Contact() {
                 </p>
                 <a
                   href={`mailto:${site.email}`}
-                  className="mt-2.5 inline-flex items-center gap-2.5 font-display text-xl font-semibold text-ink transition-colors hover:text-primary"
+                  className="mt-2.5 inline-flex items-center gap-2.5 font-display text-xl font-normal text-ink transition-colors hover:text-primary"
                 >
                   <Mail className="h-5 w-5 text-primary" />
                   {site.email}
@@ -196,7 +197,7 @@ export default function Contact() {
                       <Check className="h-8 w-8" />
                     </motion.span>
 
-                    <h3 className="mt-6 font-display text-2xl font-semibold text-ink">
+                    <h3 className="mt-6 font-display text-2xl font-normal text-ink">
                       Message received.
                     </h3>
                     <p className="mx-auto mt-3 max-w-sm text-[15px] leading-relaxed text-muted">
@@ -236,7 +237,7 @@ export default function Contact() {
                     transition={{ duration: 0.25 }}
                   >
                     <Badge tone="soft">Free, honest quote</Badge>
-                    <h3 className="mt-4 font-display text-2xl font-semibold text-ink">
+                    <h3 className="mt-4 font-display text-2xl font-normal text-ink">
                       Tell us about your book
                     </h3>
 

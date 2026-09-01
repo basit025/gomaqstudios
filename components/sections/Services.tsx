@@ -79,7 +79,7 @@ export default function Services() {
                     <Icon className="h-6 w-6" />
                   </span>
 
-                  <h3 className="mt-6 font-display text-[22px] font-semibold leading-tight text-ink">
+                  <h3 className="mt-6 font-display text-[22px] font-normal leading-tight text-ink">
                     {service.title}
                   </h3>
                   <p className="mt-3 text-[15px] leading-relaxed text-muted">

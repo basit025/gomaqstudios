@@ -85,13 +85,41 @@ follows — `tailwind.config.ts` only maps those variables onto Tailwind names.
 Each is also exposed as RGB channels (`--color-primary-rgb`) so Tailwind
 opacity modifiers work: `bg-primary/10`, `text-ink/70`.
 
-**Type** — [`app/fonts.ts`](app/fonts.ts), loaded with `next/font`:
+**Type** — [`app/fonts.ts`](app/fonts.ts), three families loaded with `next/font`:
 
-- **Fraunces** — display serif for headlines (`font-display`). Editorial, high
-  contrast, reads like a publishing house rather than a SaaS template.
-- **Manrope** — sans for body and UI (`font-sans`).
+| Family | Tailwind class | Job |
+|---|---|---|
+| **Instrument Serif** | `font-display` | Headlines only |
+| **Instrument Sans** | `font-sans` | Body copy, UI, labels |
+| **Ms Madi** | `font-script` | Accents only |
 
-Swap either in that one file; the CSS variables feed Tailwind automatically.
+Instrument Serif and Instrument Sans are a designed pair from the same family,
+so they agree on proportion without any tuning.
+
+> ### ⚠️ Instrument Serif has no bold
+>
+> It ships in **weight 400 only**. Never put `font-bold` or `font-semibold` on a
+> `font-display` element — the browser will synthesise a smeared faux-bold.
+> Size and colour carry the emphasis instead; at display sizes its thick stems
+> already read as bold. Its true *italic* is loaded and is used as an accent
+> (the word "Designed" in the hero).
+
+**Where the script is used** — five places, all accents, never body text:
+
+1. Hero eyebrow — *"for independent authors"*, flanked by rules like a title-page ornament
+2. Contact eyebrow — *"the last page"*, mirroring the hero so the page closes as it opened
+3. Testimonial author names — set as signatures
+4. Mock book-cover bylines ([`ui/BookCover.tsx`](components/ui/BookCover.tsx))
+5. Footer sign-off
+
+Ms Madi is a fine-line hand that gets delicate fast, so it is never set below
+~17px and never used for anything a visitor must read to understand the page.
+Section eyebrows stay uppercase sans — that contrast is what keeps the script
+feeling special rather than decorative.
+
+To swap any family, edit `app/fonts.ts` only; the CSS variables feed Tailwind
+automatically. If you replace Instrument Serif with a font that *does* have
+bold, you can reinstate `font-semibold` on display headings.
 
 ---
 

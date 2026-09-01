@@ -106,7 +106,7 @@ export default function Portfolio() {
                   <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-primary">
                     {project.category}
                   </p>
-                  <h3 className="mt-1.5 font-display text-base font-semibold leading-tight text-white sm:text-lg">
+                  <h3 className="mt-1.5 font-display text-base font-normal leading-tight text-white sm:text-lg">
                     {project.name}
                   </h3>
                   <p className="mt-0.5 text-[12px] text-white/70">{project.genre}</p>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { display, sans } from "./fonts";
+import { display, sans, script } from "./fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable}`}>
+    <html lang="en" className={`${display.variable} ${sans.variable} ${script.variable}`}>
       <body className="font-sans antialiased">{children}</body>
     </html>
   );
