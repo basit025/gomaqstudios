@@ -9,6 +9,7 @@ import Testimonials from "@/components/sections/Testimonials";
 import Pricing from "@/components/sections/Pricing";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
+import BackToTop from "@/components/ui/BackToTop";
 
 /**
  * Single scrolling marketing page. Section order is the visitor's journey:
@@ -31,6 +32,7 @@ export default function HomePage() {
         <Contact />
       </main>
       <Footer />
+      <BackToTop />
     </>
   );
 }

@@ -21,6 +21,12 @@ import StepNumber from "@/components/ui/StepNumber";
  * matches the order the work actually happens in and gives each step a full
  * measure of text.
  *
+ * On lg and up the timeline ALTERNATES: the rail runs down the centre and
+ * each step sits on the opposite side to the one before it, sliding in from
+ * its own side. Below lg there is not enough width for two columns, so it
+ * collapses to a single left rail — the steps still alternate their slide
+ * direction, which keeps the rhythm.
+ *
  * The connector rule draws itself downward as you scroll, so the sequence
  * reveals in order rather than all at once.
  * ============================================================
@@ -56,42 +62,59 @@ export default function HowItWorks() {
           subtitle="You stay the author. We handle everything that happens between the last sentence and the upload button."
         />
 
-        <div className="relative mx-auto mt-14 max-w-2xl sm:mt-16">
-          {/* Connector threading the numerals. `left-7` is half of the 56px
-              numeral, so it runs through their centres; inset top and bottom
-              so it starts and ends inside the first and last circle. */}
+        <div className="relative mx-auto mt-14 max-w-2xl sm:mt-16 lg:max-w-4xl">
+          {/* Connector threading the numerals: down the left edge on small
+              screens (left-7 == half the 56px numeral), down the centre once
+              the layout alternates. */}
           <DrawLine
             vertical
-            className="absolute bottom-8 left-7 top-8 -translate-x-1/2"
+            className="absolute bottom-8 left-7 top-8 -translate-x-1/2 lg:left-1/2"
           />
 
           <ol className="space-y-14 sm:space-y-16">
-            {STEPS.map((step, i) => (
-              <motion.li
-                key={step.title}
-                className="group/step relative flex gap-5 sm:gap-7"
-                initial={reduced ? false : { opacity: 0, y: 26, x: -18 }}
-                whileInView={{ opacity: 1, y: 0, x: 0 }}
-                /* The negative bottom margin pulls the trigger line up to
-                   roughly three-quarters down the viewport, so a step only
-                   animates once it has properly arrived rather than the moment
-                   it clips the bottom edge. That is what makes them arrive one
-                   at a time on the way down instead of all at once. */
-                viewport={{ once: true, amount: 0.35, margin: "0px 0px -22% 0px" }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <StepNumber n={i + 1} />
+            {STEPS.map((step, i) => {
+              // Even-indexed steps sit left of the rail, odd ones right.
+              const onLeft = i % 2 === 0;
 
-                <div className="pt-2.5 sm:pt-3">
-                  <h3 className="font-display text-xl font-normal leading-tight text-ink transition-colors duration-300 group-hover/step:text-primary sm:text-2xl">
-                    {step.title}
-                  </h3>
-                  <p className="mt-2 max-w-md text-[15px] leading-relaxed text-muted sm:text-base">
-                    {step.body}
-                  </p>
-                </div>
-              </motion.li>
-            ))}
+              return (
+                <motion.li
+                  key={step.title}
+                  className="group/step relative flex gap-5 sm:gap-7 lg:grid lg:grid-cols-[1fr_3.5rem_1fr] lg:items-start lg:gap-8"
+                  /* Each step enters from its own side, so the eye is thrown
+                     left-right-left on the way down. */
+                  initial={
+                    reduced ? false : { opacity: 0, y: 26, x: onLeft ? -34 : 34 }
+                  }
+                  whileInView={{ opacity: 1, y: 0, x: 0 }}
+                  /* The negative bottom margin pulls the trigger line up to
+                     roughly three-quarters down the viewport, so a step only
+                     animates once it has properly arrived rather than the
+                     moment it clips the bottom edge. That is what makes them
+                     arrive one at a time on the way down. */
+                  viewport={{ once: true, amount: 0.35, margin: "0px 0px -22% 0px" }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <StepNumber n={i + 1} className="lg:col-start-2 lg:row-start-1" />
+
+                  <div
+                    className={`pt-2.5 sm:pt-3 lg:row-start-1 ${
+                      onLeft ? "lg:col-start-1 lg:text-right" : "lg:col-start-3"
+                    }`}
+                  >
+                    <h3 className="font-display text-xl font-normal leading-tight text-ink transition-colors duration-300 group-hover/step:text-primary sm:text-2xl">
+                      {step.title}
+                    </h3>
+                    <p
+                      className={`mt-2 max-w-md text-[15px] leading-relaxed text-muted sm:text-base ${
+                        onLeft ? "lg:ml-auto" : ""
+                      }`}
+                    >
+                      {step.body}
+                    </p>
+                  </div>
+                </motion.li>
+              );
+            })}
           </ol>
         </div>
 

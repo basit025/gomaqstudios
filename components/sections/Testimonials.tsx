@@ -8,6 +8,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import Stars from "@/components/ui/Stars";
 import Button from "@/components/ui/Button";
 import { ArrowRight, Quote } from "@/components/ui/Icons";
+import { Magnetic, Tilt } from "@/components/ui/motion/pointer";
 
 /**
  * ============================================================
@@ -69,7 +70,7 @@ function TestimonialCard({
 }: (typeof TESTIMONIALS)[number]) {
   return (
     <Card spotlight className="flex h-full flex-col p-7">
-      <Quote className="h-7 w-7 text-primary/35" />
+      <Quote className="h-7 w-7 text-primary/35 transition-all duration-500 group-hover/spot:scale-110 group-hover/spot:text-primary/60" />
       <p className="mt-5 flex-1 text-[15px] leading-relaxed text-ink/85">
         &ldquo;{quote}&rdquo;
       </p>
@@ -110,7 +111,9 @@ export default function Testimonials() {
         <div className="mt-14 hidden gap-5 md:grid md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
           {TESTIMONIALS.map((t, i) => (
             <Reveal key={t.name} delay={(i % 3) * 0.08} className="h-full">
-              <TestimonialCard {...t} />
+              <Tilt className="h-full" max={4}>
+                <TestimonialCard {...t} />
+              </Tilt>
             </Reveal>
           ))}
         </div>
@@ -153,10 +156,12 @@ export default function Testimonials() {
 
         <Reveal delay={0.1}>
           <div className="mt-12 text-center">
-            <Button href="#contact" variant="outline" size="lg">
-              Become the next one
-              <ArrowRight className="h-4 w-4" />
-            </Button>
+            <Magnetic>
+              <Button href="#contact" variant="outline" size="lg" className="group">
+                Become the next one
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Button>
+            </Magnetic>
           </div>
         </Reveal>
       </div>

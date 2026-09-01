@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import BookCover from "@/components/ui/BookCover";
 import Button from "@/components/ui/Button";
 import { ArrowRight } from "@/components/ui/Icons";
 import { Drift, Magnetic, Spotlight } from "@/components/ui/motion/pointer";
@@ -56,6 +57,32 @@ type Stat =
  * outcome. Keep them short and similar in length (see the note above).
  */
 const HEADLINE_WORDS = ["book", "brand", "video", "launch"] as const;
+
+/**
+ * Cover mockups floating in the margins either side of the hero copy.
+ *
+ * The hero column is capped at 768px, so on a wide screen there was a few
+ * hundred pixels of dead space down both sides. Rather than fill it with
+ * abstract shapes, it shows the actual product — so the space earns its keep.
+ *
+ * Only rendered at xl and above: below 1280px the margins are narrower than
+ * the cards, and they would collide with the headline.
+ * Each drifts a different distance with the cursor, which is what reads as
+ * depth rather than as four stickers.
+ */
+const FLOATING_COVERS = [
+  // Offsets are constrained so that `side offset + card width` stays under the
+  // side margin at the xl breakpoint itself (1280px leaves 256px a side), or
+  // the cards clip the text column on exactly that width.
+  { title: "The Salt in Her Letters", genre: "Fiction", variant: "paper" as const,
+    pos: "left-[2%] top-[22%] w-[146px] -rotate-[9deg]", drift: 34, float: 11, delay: 0.5 },
+  { title: "Nine Winters North", genre: "Memoir", variant: "ember" as const,
+    pos: "left-[7%] top-[60%] w-[118px] rotate-[7deg]", drift: 20, float: 13, delay: 0.75 },
+  { title: "Quiet Systems", genre: "Non-Fiction", variant: "ink" as const,
+    pos: "right-[3%] top-[18%] w-[136px] rotate-[8deg]", drift: 40, float: 9.5, delay: 0.62 },
+  { title: "Small Hours", genre: "Poetry", variant: "paper" as const,
+    pos: "right-[7%] top-[56%] w-[128px] -rotate-[6deg]", drift: 24, float: 12, delay: 0.88 },
+];
 
 const trustStats: Stat[] = [
   { kind: "count", value: 120, suffix: "+", label: "Covers designed" },
@@ -135,6 +162,36 @@ export default function Hero() {
         </Drift>
       </div>
 
+      {/* ---------- Floating cover mockups, filling the side margins ---------- */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 hidden xl:block"
+      >
+        {FLOATING_COVERS.map((cover) => (
+          <Drift key={cover.title} distance={cover.drift} className="absolute inset-0">
+            <motion.div
+              data-hero-cover=""
+              className={`absolute ${cover.pos}`}
+              initial={reduced ? false : { opacity: 0, y: 30, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.9, delay: cover.delay, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <motion.div
+                animate={reduced ? undefined : { y: [0, -14, 0] }}
+                transition={{ duration: cover.float, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <BookCover
+                  title={cover.title}
+                  genre={cover.genre}
+                  variant={cover.variant}
+                  className="opacity-[0.72] shadow-lift"
+                />
+              </motion.div>
+            </motion.div>
+          </Drift>
+        ))}
+      </div>
+
       <div className="shell">
         <div className="mx-auto max-w-3xl text-center">
           {/* Script accent — set like a title-page ornament. */}
@@ -185,7 +242,7 @@ export default function Hero() {
                 blocks blurred into one despite differing in size and
                 typeface. Full ink groups it with the headline; the paragraph
                 stays muted sans. Keep that contrast if you restyle. */}
-            <span className="mt-2 block whitespace-nowrap text-[clamp(1.3rem,2.9vw,2rem)] italic leading-tight tracking-[0.01em] text-ink sm:mt-3">
+            <span className="mt-0.5 block whitespace-nowrap text-[clamp(1.2rem,2.1vw,1.5rem)] italic leading-tight tracking-[0.01em] text-ink sm:mt-1">
               We&rsquo;ve got you covered.
             </span>
           </motion.h1>

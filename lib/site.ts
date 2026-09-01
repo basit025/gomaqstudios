@@ -6,6 +6,23 @@
  * ============================================================
  */
 
+/**
+ * The primary call to action, used in the nav and the mobile menu.
+ *
+ * Deliberately not "Get Started" / "Contact Us". It should sound like a
+ * person, not a funnel. Alternatives if this one does not land:
+ *   "Let's talk books"   <-- ACTIVE
+ *   "Pull up a chair"
+ *   "Bring us your book"
+ *   "Start the conversation"
+ * `short` is used under 640px, where the full label will not fit.
+ */
+export const cta = {
+  label: "Let's talk books",
+  short: "Let's talk",
+  href: "#contact",
+};
+
 export const site = {
   name: "Gomaq Studios",
   // TODO: replace with the real inbox before launch.

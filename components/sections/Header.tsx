@@ -7,7 +7,7 @@ import Button from "@/components/ui/Button";
 import { Close, Menu, ArrowRight } from "@/components/ui/Icons";
 import { Magnetic } from "@/components/ui/motion/pointer";
 import { ScrollProgress } from "@/components/ui/motion/scroll";
-import { navLinks } from "@/lib/site";
+import { cta, navLinks } from "@/lib/site";
 
 /**
  * Sticky header. Transparent over the hero, then condenses to a white
@@ -76,18 +76,18 @@ export default function Header() {
           <div className="flex items-center gap-2">
             {/* CTA stays visible at every breakpoint, per spec. */}
             <Magnetic className="hidden sm:inline-flex" strength={0.35}>
-              <Button href="#contact" size="sm" className="group">
-                Start My Book
+              <Button href={cta.href} size="sm" className="group">
+                {cta.label}
                 <ArrowRight className="h-3.5 w-3.5 -translate-x-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
               </Button>
             </Magnetic>
             <Button
-              href="#contact"
+              href={cta.href}
               size="sm"
               className="px-4 sm:hidden"
-              aria-label="Start my book"
+              aria-label={cta.label}
             >
-              Start
+              {cta.short}
             </Button>
 
             <button
@@ -166,12 +166,12 @@ export default function Header() {
 
               <div className="border-t border-line p-5">
                 <Button
-                  href="#contact"
+                  href={cta.href}
                   size="lg"
                   className="w-full"
                   onClick={() => setOpen(false)}
                 >
-                  Start My Book
+                  {cta.label}
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </div>

@@ -1,6 +1,6 @@
 import Logo from "@/components/ui/Logo";
 import { ArrowRight, socialIcons } from "@/components/ui/Icons";
-import { navLinks, site, socials } from "@/lib/site";
+import { cta, navLinks, site, socials } from "@/lib/site";
 
 /**
  * Footer. Deliberately contains NO address, city or region — contact is
@@ -57,9 +57,13 @@ export default function Footer() {
                   <li key={link.href}>
                     <a
                       href={link.href}
-                      className="text-[14px] text-muted transition-colors hover:text-primary"
+                      className="group relative inline-block text-[14px] text-muted transition-colors hover:text-primary"
                     >
                       {link.label}
+                      <span
+                        aria-hidden="true"
+                        className="absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-primary transition-transform duration-300 ease-out group-hover:scale-x-100"
+                      />
                     </a>
                   </li>
                 ))}
@@ -74,11 +78,11 @@ export default function Footer() {
                 Send the manuscript. We will tell you what it needs.
               </p>
               <a
-                href="#contact"
-                className="mt-4 inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary transition-colors hover:text-primary-dark"
+                href={cta.href}
+                className="group mt-4 inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary transition-colors hover:text-primary-dark"
               >
-                Start my book
-                <ArrowRight className="h-4 w-4" />
+                {cta.label}
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </a>
             </div>
           </div>

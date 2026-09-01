@@ -54,7 +54,9 @@ function validate(values: Values): Errors {
 }
 
 const inputBase =
-  "w-full rounded-xl border bg-white px-4 py-3.5 text-[15px] text-ink placeholder:text-muted/70 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/25";
+  // Fields lift very slightly and warm on focus, so the active one is
+  // obvious without a heavy outline.
+  "w-full rounded-xl border bg-white px-4 py-3.5 text-[15px] text-ink placeholder:text-muted/70 transition-all duration-300 hover:border-primary/40 focus:-translate-y-0.5 focus:shadow-soft focus:outline-none focus:ring-2 focus:ring-primary/25";
 
 export default function Contact() {
   const [values, setValues] = useState<Values>(EMPTY);
@@ -162,7 +164,7 @@ export default function Contact() {
                         <a
                           href={social.href}
                           aria-label={social.label}
-                          className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-ink ring-1 ring-inset ring-line transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary hover:text-white hover:ring-primary"
+                          className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-ink ring-1 ring-inset ring-line transition-all duration-300 hover:-translate-y-1 hover:scale-110 hover:bg-primary hover:text-white hover:ring-primary"
                         >
                           <Icon className="h-[18px] w-[18px]" />
                         </a>

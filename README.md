@@ -76,6 +76,8 @@ file**, marked with a `TODO` or `PLACEHOLDER` comment.
 | **Service descriptions** | [`components/sections/Services.tsx`](components/sections/Services.tsx) | `const SERVICES` |
 | **Process steps** | [`components/sections/HowItWorks.tsx`](components/sections/HowItWorks.tsx) | `const STEPS` |
 | **Email, socials, nav links, genres** | [`lib/site.ts`](lib/site.ts) | all of it — social `href`s are `#` |
+| **Main CTA wording** | [`lib/site.ts`](lib/site.ts) | `const cta` — label, short label, alternatives in the comment |
+| **Hero floating covers** | [`components/sections/Hero.tsx`](components/sections/Hero.tsx) | `const FLOATING_COVERS` |
 | **Hero headline words** | [`components/sections/Hero.tsx`](components/sections/Hero.tsx) | `const HEADLINE_WORDS` — plus retired alternatives in the comment above |
 | **Ticker band items** | [`components/sections/Ticker.tsx`](components/sections/Ticker.tsx) | `const ITEMS` |
 
@@ -281,6 +283,7 @@ section, so behaviour is consistent and tunable in one place.
 | `RotatingWord` | `motion/text.tsx` | Swaps words in place (available; no current use) |
 | `Marquee` | `motion/text.tsx` | The scrolling ticker band |
 | `ScrollProgress` | `motion/scroll.tsx` | Bar filling along the header's bottom edge |
+| `BackToTop` | `ui/BackToTop.tsx` | Corner button; its ring is scroll progress |
 | `Parallax` / `DrawLine` | `motion/scroll.tsx` | Scroll-linked drift; the rule that draws itself (`vertical` for timelines) |
 
 ### Three rules everything follows
@@ -302,6 +305,19 @@ therefore kept short and scroll-triggered rather than sitting on long load
 timers — otherwise a throttled or backgrounded tab can leave content stuck
 invisible. If you add motion, keep delays under ~0.8s and prefer `whileInView`
 over `animate` with a long `delay`.
+
+### Filling the hero margins
+
+The hero copy is capped at 768px, which left a few hundred pixels of dead
+space down each side on a wide screen. `FLOATING_COVERS` in `Hero.tsx` fills
+it with drifting cover mockups — showing the product rather than abstract
+shapes, so the space earns its keep.
+
+They render only at **xl and above**, and each card's `side offset + width` is
+kept under 256px. That is the margin available at 1280px, the xl breakpoint
+itself — the width where a collision with the headline would first appear.
+Verified at 1280 and 1440: four covers visible, zero overlap with the text
+column. Below xl they are not rendered at all.
 
 ### The hero typewriter
 

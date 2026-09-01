@@ -7,10 +7,18 @@ import { motion } from "framer-motion";
  * scrolls in, then fills solid orange when its step is hovered — so running
  * the cursor down the process lights each stage in turn.
  */
-export default function StepNumber({ n, delay = 0 }: { n: number; delay?: number }) {
+export default function StepNumber({
+  n,
+  delay = 0,
+  className = "",
+}: {
+  n: number;
+  delay?: number;
+  className?: string;
+}) {
   return (
     <motion.span
-      className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white font-display text-2xl font-normal text-primary ring-1 ring-primary/25 transition-colors duration-300 group-hover/step:bg-primary group-hover/step:text-white group-hover/step:ring-primary"
+      className={`relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white font-display text-2xl font-normal text-primary ring-1 ring-primary/25 transition-colors duration-300 group-hover/step:bg-primary group-hover/step:text-white group-hover/step:ring-primary ${className}`}
       initial={{ scale: 0.6, opacity: 0 }}
       whileInView={{ scale: 1, opacity: 1 }}
       /* Same trigger line as the step body in HowItWorks, so the numeral and
