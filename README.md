@@ -299,6 +299,12 @@ Two things it does that a naive typewriter does not:
 longer word will overflow on mobile. ("trailer" was dropped for "video" for
 this reason.)
 
+**The tagline below it** — *"On your quest, by your side."* — is sized by a
+`clamp()` ceiling (21px mobile → 32px desktop, against an 88px headline) and is
+also `whitespace-nowrap`, so it holds one line at every breakpoint. If you
+lengthen that copy, lower the clamp values and re-measure at 375px, where it
+has ~320px to work with.
+
 ### Tuning it down
 
 Turn any effect off by removing the wrapper — every one degrades to plain

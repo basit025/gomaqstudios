@@ -163,10 +163,10 @@ export default function Hero() {
               fixed second line. The whole block fades up once; the typing
               carries the motion from there. */}
           <motion.h1
-            className="mt-6 font-display text-display-xl font-normal text-ink"
+            className="mt-6 font-display font-normal text-ink"
             {...rise(0.1, 16)}
           >
-            <span className="block whitespace-nowrap">
+            <span className="block whitespace-nowrap text-display-xl">
               Your{" "}
               <TypeCycle
                 words={HEADLINE_WORDS}
@@ -174,9 +174,13 @@ export default function Hero() {
                 className="italic text-primary"
               />
             </span>
-            {/* text-balance evens the two wrapped lines — without it the last
-                word is left stranded on a line of its own. */}
-            <span className="block text-balance">On your quest, by your side.</span>
+            {/* Tagline, not a second headline: roughly a third the size of the
+                line above, and held to ONE line at every breakpoint. The size
+                ceiling is what keeps it on one line — if you lengthen this
+                copy, re-check 375px, where it has ~335px to work with. */}
+            <span className="mt-3 block whitespace-nowrap text-[clamp(1.3rem,2.9vw,2rem)] leading-tight tracking-[0.01em] text-ink/70 sm:mt-4">
+              On your quest, by your side.
+            </span>
           </motion.h1>
 
           <motion.p
