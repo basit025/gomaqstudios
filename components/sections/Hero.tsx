@@ -16,7 +16,7 @@ import { CountUp, RotatingWord, SplitText, TypeCycle } from "@/components/ui/mot
  * services, then resolves on a fixed second line:
  *
  *     Your book.   ->   Your brand.   ->   Your video.   ->   Your launch.
- *     On your quest, by your side.                          (fixed)
+ *     We've got you covered.                                (fixed)
  *
  * Edit HEADLINE_WORDS below to change the cycle. Words are kept to 4-6
  * characters on purpose: the line reflows as each word types, and a wildly
@@ -186,7 +186,7 @@ export default function Hero() {
                 typeface. Full ink groups it with the headline; the paragraph
                 stays muted sans. Keep that contrast if you restyle. */}
             <span className="mt-2 block whitespace-nowrap text-[clamp(1.3rem,2.9vw,2rem)] italic leading-tight tracking-[0.01em] text-ink sm:mt-3">
-              On your quest, by your side.
+              We&rsquo;ve got you covered.
             </span>
           </motion.h1>
 

@@ -96,7 +96,7 @@ services. If you edit one, check the others still balance:
 
 1. **Hero headline** — a typewriter cycles one word through all four:
    *Your **book**. → Your **brand**. → Your **video**. → Your **launch**.*
-   over the fixed second line *"On your quest, by your side."* Edit `HEADLINE_WORDS` in
+   over the fixed second line *"We've got you covered."* Edit `HEADLINE_WORDS` in
    `Hero.tsx`. (Retired alternatives are kept in the comment block above it,
    including the original *"Your book. Designed, formatted, and ready to
    publish"* — which named only two of the four services.)
@@ -290,8 +290,7 @@ Two things it does that a naive typewriter does not:
   a left-aligned headline, where reflow is invisible.
 - **Stays readable to crawlers and screen readers.** The animated text is
   `aria-hidden` and every word is also rendered in a `sr-only` span, so the
-  `<h1>` reads *"Your book, brand, video, launch. On your quest, by your side."*
-  rather
+  `<h1>` reads *"Your book, brand, video, launch. We've got you covered."* rather
   than the empty slot that server-rendered HTML would otherwise contain.
 
 **Keep the words 4–6 characters.** The first line is `whitespace-nowrap`, and at
@@ -299,7 +298,7 @@ Two things it does that a naive typewriter does not:
 longer word will overflow on mobile. ("trailer" was dropped for "video" for
 this reason.)
 
-**The tagline below it** — *"On your quest, by your side."* — is sized by a
+**The tagline below it** — *"We've got you covered."* — is sized by a
 `clamp()` ceiling (21px mobile → 32px desktop, against an 88px headline) and is
 also `whitespace-nowrap`, so it holds one line at every breakpoint. If you
 lengthen that copy, lower the clamp values and re-measure at 375px, where it
