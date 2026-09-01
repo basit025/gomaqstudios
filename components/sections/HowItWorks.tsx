@@ -65,15 +65,20 @@ export default function HowItWorks() {
             className="absolute bottom-8 left-7 top-8 -translate-x-1/2"
           />
 
-          <ol className="space-y-10 sm:space-y-12">
+          <ol className="space-y-14 sm:space-y-16">
             {STEPS.map((step, i) => (
               <motion.li
                 key={step.title}
                 className="group/step relative flex gap-5 sm:gap-7"
-                initial={reduced ? false : { opacity: 0, y: 22 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.5 }}
-                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                initial={reduced ? false : { opacity: 0, y: 26, x: -18 }}
+                whileInView={{ opacity: 1, y: 0, x: 0 }}
+                /* The negative bottom margin pulls the trigger line up to
+                   roughly three-quarters down the viewport, so a step only
+                   animates once it has properly arrived rather than the moment
+                   it clips the bottom edge. That is what makes them arrive one
+                   at a time on the way down instead of all at once. */
+                viewport={{ once: true, amount: 0.35, margin: "0px 0px -22% 0px" }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               >
                 <StepNumber n={i + 1} />
 

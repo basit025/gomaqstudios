@@ -13,7 +13,9 @@ export default function StepNumber({ n, delay = 0 }: { n: number; delay?: number
       className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white font-display text-2xl font-normal text-primary ring-1 ring-primary/25 transition-colors duration-300 group-hover/step:bg-primary group-hover/step:text-white group-hover/step:ring-primary"
       initial={{ scale: 0.6, opacity: 0 }}
       whileInView={{ scale: 1, opacity: 1 }}
-      viewport={{ once: true, amount: 0.6 }}
+      /* Same trigger line as the step body in HowItWorks, so the numeral and
+         its text arrive together rather than the circle popping early. */
+      viewport={{ once: true, amount: 0.35, margin: "0px 0px -22% 0px" }}
       transition={{ type: "spring", stiffness: 300, damping: 16, delay }}
     >
       {n}
