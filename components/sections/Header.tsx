@@ -61,7 +61,7 @@ export default function Header() {
               <a
                 key={link.href}
                 href={link.href}
-                className="group relative rounded-full px-3.5 py-2 text-[14px] font-medium text-ink/75 transition-colors hover:text-primary"
+                className="group relative rounded-full px-3 py-2 text-[15px] font-semibold text-ink transition-colors hover:text-primary"
               >
                 {link.label}
                 {/* Rule wipes in from the left on hover. */}
