@@ -16,7 +16,7 @@ import { CountUp, RotatingWord, SplitText, TypeCycle } from "@/components/ui/mot
  * services, then resolves on a fixed second line:
  *
  *     Your book.   ->   Your brand.   ->   Your video.   ->   Your launch.
- *     Ready for readers.                                    (fixed)
+ *     On your quest, by your side.                          (fixed)
  *
  * Edit HEADLINE_WORDS below to change the cycle. Words are kept to 4-6
  * characters on purpose: the line reflows as each word types, and a wildly
@@ -174,7 +174,9 @@ export default function Hero() {
                 className="italic text-primary"
               />
             </span>
-            <span className="block">Ready for readers.</span>
+            {/* text-balance evens the two wrapped lines — without it the last
+                word is left stranded on a line of its own. */}
+            <span className="block text-balance">On your quest, by your side.</span>
           </motion.h1>
 
           <motion.p

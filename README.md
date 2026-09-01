@@ -96,7 +96,7 @@ services. If you edit one, check the others still balance:
 
 1. **Hero headline** — a typewriter cycles one word through all four:
    *Your **book**. → Your **brand**. → Your **video**. → Your **launch**.*
-   over the fixed second line *"Ready for readers."* Edit `HEADLINE_WORDS` in
+   over the fixed second line *"On your quest, by your side."* Edit `HEADLINE_WORDS` in
    `Hero.tsx`. (Retired alternatives are kept in the comment block above it,
    including the original *"Your book. Designed, formatted, and ready to
    publish"* — which named only two of the four services.)
@@ -290,7 +290,8 @@ Two things it does that a naive typewriter does not:
   a left-aligned headline, where reflow is invisible.
 - **Stays readable to crawlers and screen readers.** The animated text is
   `aria-hidden` and every word is also rendered in a `sr-only` span, so the
-  `<h1>` reads *"Your book, brand, video, launch. Ready for readers."* rather
+  `<h1>` reads *"Your book, brand, video, launch. On your quest, by your side."*
+  rather
   than the empty slot that server-rendered HTML would otherwise contain.
 
 **Keep the words 4–6 characters.** The first line is `whitespace-nowrap`, and at
