@@ -1,3 +1,6 @@
+"use client";
+
+import { motion, useReducedMotion } from "framer-motion";
 import Button from "@/components/ui/Button";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -9,8 +12,17 @@ import StepNumber from "@/components/ui/StepNumber";
 /**
  * ============================================================
  * HOW IT WORKS — 4 steps.
- * Horizontal on desktop (connected by a hairline rule),
- * vertical on mobile (connected by a left spine).
+ *
+ * A single VERTICAL timeline at every breakpoint.
+ *
+ * It was previously four columns across on desktop, which squeezed each step
+ * into a ~250px column, set the copy as four narrow ragged blocks, and made
+ * the steps read as simultaneous rather than sequential. Reading top-to-bottom
+ * matches the order the work actually happens in and gives each step a full
+ * measure of text.
+ *
+ * The connector rule draws itself downward as you scroll, so the sequence
+ * reveals in order rather than all at once.
  * ============================================================
  */
 const STEPS = [
@@ -33,6 +45,8 @@ const STEPS = [
 ];
 
 export default function HowItWorks() {
+  const reduced = useReducedMotion();
+
   return (
     <section id="how-it-works" className="bg-primary-light/50 py-20 sm:py-24 lg:py-32">
       <div className="shell">
@@ -42,34 +56,36 @@ export default function HowItWorks() {
           subtitle="You stay the author. We handle everything that happens between the last sentence and the upload button."
         />
 
-        <div className="relative mt-14 sm:mt-16">
-          {/* Desktop connector rule — draws itself left to right on scroll. */}
-          <DrawLine className="absolute left-0 right-0 top-7 hidden lg:block" />
+        <div className="relative mx-auto mt-14 max-w-2xl sm:mt-16">
+          {/* Connector threading the numerals. `left-7` is half of the 56px
+              numeral, so it runs through their centres; inset top and bottom
+              so it starts and ends inside the first and last circle. */}
+          <DrawLine
+            vertical
+            className="absolute bottom-8 left-7 top-8 -translate-x-1/2"
+          />
 
-          <ol className="relative grid gap-8 lg:grid-cols-4 lg:gap-6">
+          <ol className="space-y-10 sm:space-y-12">
             {STEPS.map((step, i) => (
-              <Reveal key={step.title} delay={i * 0.1}>
-                <li className="group/step relative flex gap-5 lg:block">
-                  {/* Mobile vertical spine between steps. */}
-                  {i < STEPS.length - 1 && (
-                    <span
-                      aria-hidden="true"
-                      className="absolute left-7 top-16 h-[calc(100%-1rem)] w-px bg-primary/25 lg:hidden"
-                    />
-                  )}
+              <motion.li
+                key={step.title}
+                className="group/step relative flex gap-5 sm:gap-7"
+                initial={reduced ? false : { opacity: 0, y: 22 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <StepNumber n={i + 1} />
 
-                  <StepNumber n={i + 1} delay={i * 0.1} />
-
-                  <div className="lg:mt-6">
-                    <h3 className="font-display text-xl font-normal leading-tight text-ink transition-colors duration-300 group-hover/step:text-primary">
-                      {step.title}
-                    </h3>
-                    <p className="mt-2.5 max-w-xs text-[15px] leading-relaxed text-muted">
-                      {step.body}
-                    </p>
-                  </div>
-                </li>
-              </Reveal>
+                <div className="pt-2.5 sm:pt-3">
+                  <h3 className="font-display text-xl font-normal leading-tight text-ink transition-colors duration-300 group-hover/step:text-primary sm:text-2xl">
+                    {step.title}
+                  </h3>
+                  <p className="mt-2 max-w-md text-[15px] leading-relaxed text-muted sm:text-base">
+                    {step.body}
+                  </p>
+                </div>
+              </motion.li>
             ))}
           </ol>
         </div>

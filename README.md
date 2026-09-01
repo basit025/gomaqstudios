@@ -188,7 +188,7 @@ components/
     Hero.tsx        headline, CTAs, animated blobs, trust bar
     DraftDemo.tsx   the 100-Minute Draft widget  ← the interactive one
     Services.tsx    four service cards
-    HowItWorks.tsx  four-step process
+    HowItWorks.tsx  four-step vertical timeline
     Portfolio.tsx   filterable project grid
     Testimonials.tsx  grid on desktop, carousel on mobile
     Pricing.tsx     three tiers
@@ -253,7 +253,7 @@ section, so behaviour is consistent and tunable in one place.
 | `RotatingWord` | `motion/text.tsx` | Swaps words in place (available; no current use) |
 | `Marquee` | `motion/text.tsx` | The scrolling ticker band |
 | `ScrollProgress` | `motion/scroll.tsx` | Bar filling along the header's bottom edge |
-| `Parallax` / `DrawLine` | `motion/scroll.tsx` | Scroll-linked drift; the rule that draws itself |
+| `Parallax` / `DrawLine` | `motion/scroll.tsx` | Scroll-linked drift; the rule that draws itself (`vertical` for timelines) |
 
 ### Three rules everything follows
 

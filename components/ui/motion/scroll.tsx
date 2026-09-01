@@ -72,23 +72,40 @@ export function Parallax({ children, className = "", distance = 70 }: ParallaxPr
 /* ------------------------------------------------------------------ */
 
 /**
- * A horizontal rule that draws itself left-to-right as the section scrolls
- * into view. Used to connect the four "How It Works" steps.
+ * A rule that draws itself as the section scrolls into view — left-to-right,
+ * or top-to-bottom with `vertical`. Used as the connector threading the four
+ * "How It Works" steps together.
+ *
+ * The container supplies the length: give it a width (horizontal) or a height
+ * (vertical), e.g. `absolute inset-y-0 left-7`.
  */
-export function DrawLine({ className = "" }: { className?: string }) {
+export function DrawLine({
+  className = "",
+  vertical = false,
+}: {
+  className?: string;
+  vertical?: boolean;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start 0.85", "start 0.35"],
+    // A vertical rule spans the whole block, so it tracks the block's entire
+    // trip through the viewport rather than firing all at once like the
+    // horizontal one did.
+    offset: vertical ? ["start 0.85", "end 0.6"] : ["start 0.85", "start 0.35"],
   });
-  const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30 });
+  const scale = useSpring(scrollYProgress, { stiffness: 120, damping: 30 });
 
   return (
     <div ref={ref} className={className} aria-hidden="true">
       <motion.div
-        className="h-px w-full origin-left bg-primary/30"
-        style={reduced ? undefined : { scaleX }}
+        className={
+          vertical
+            ? "h-full w-px origin-top bg-primary/30"
+            : "h-px w-full origin-left bg-primary/30"
+        }
+        style={reduced ? undefined : vertical ? { scaleY: scale } : { scaleX: scale }}
       />
     </div>
   );
