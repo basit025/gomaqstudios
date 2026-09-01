@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   GOMAQ STUDIOS — Design tokens
+   Single source of truth for the palette. Change here to rebrand.
+   Hex values are documented alongside the RGB channel triplets
+   that Tailwind consumes (channels enable `bg-primary/10` etc).
+   ============================================================ */
+:root {
+  --color-primary: #c1440e;        /* burnt orange — CTAs, accents        */
+  --color-primary-dark: #8f3209;   /* rust — hover / pressed states       */
+  --color-primary-light: #fdece1;  /* warm tint — section backgrounds     */
+  --color-base: #ffffff;           /* page background                     */
+  --color-ink: #2b211c;            /* charcoal-brown body text (not black)*/
+  --color-muted: #7a6f68;          /* warm gray — secondary text          */
+  --color-line: #ece3dd;           /* hairline borders                    */
+
+  --color-primary-rgb: 193 68 14;
+  --color-primary-dark-rgb: 143 50 9;
+  --color-primary-light-rgb: 253 236 225;
+  --color-base-rgb: 255 255 255;
+  --color-ink-rgb: 43 33 28;
+  --color-muted-rgb: 122 111 104;
+  --color-line-rgb: 236 227 221;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Sticky nav is ~76px tall; keep anchored sections clear of it. */
+  scroll-padding-top: 96px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: rgb(var(--color-base-rgb));
+  color: rgb(var(--color-ink-rgb));
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Respect users who ask the OS to reduce motion. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+@layer base {
+  /* Consistent, on-brand focus ring across every interactive element. */
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 2px solid rgb(var(--color-primary-rgb));
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  ::selection {
+    background: rgb(var(--color-primary-rgb));
+    color: #fff;
+  }
+}
+
+@layer components {
+  /* Page gutter + max width, used by every section. */
+  .shell {
+    @apply mx-auto w-full max-w-shell px-5 sm:px-6 lg:px-8;
+  }
+  /* Small uppercase eyebrow label above section headings. */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary;
+  }
+}
+
+/* Thin, warm scrollbar for horizontal scroll areas (portfolio filters). */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
