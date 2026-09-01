@@ -22,24 +22,43 @@ npm run lint       # eslint
 
 ## The logo
 
-The supplied `logo.jpeg` has been copied to **`public/logo.jpeg`** and is wired
-into the header and footer via [`components/ui/Logo.tsx`](components/ui/Logo.tsx).
+The nav and footer render the wordmark **directly on the page background** —
+no plate, no chip — via [`components/ui/Logo.tsx`](components/ui/Logo.tsx).
 
-That artwork is a white + orange wordmark on a **solid black square** with wide
-margins, so the component renders it inside a black rounded chip and crops the
-dead space with `object-cover`. On a white nav bar that reads as an intentional
-brand lockup rather than an accident.
+Getting there took a real conversion step. The supplied `public/logo.jpeg` is a
+**white** wordmark with an orange accent on a **solid black** square. JPEG has
+no alpha, so the black cannot just be switched off — and even once it is, a
+white wordmark on a white page is invisible. So
+[`scripts/build-logo.py`](scripts/build-logo.py) does both jobs at once:
 
-**If you export a transparent version later** (recommended — an `.svg` or a
-transparent `.png`), drop it in `public/` and edit the two constants at the top
-of `Logo.tsx`:
+- derives an **alpha channel from luminance** (the art sits on pure black, so
+  brightness *is* coverage) — this keeps the antialiased curves smooth instead
+  of leaving the jagged halo a colour-key would produce;
+- **recolours by saturation**, mapping the neutral strokes to ink and keeping
+  the orange accent.
 
-```ts
-const LOGO_SRC = "/logo.svg";
-const LOGO_HAS_BLACK_BACKGROUND = false;   // removes the black chip
+It writes two transparent PNGs:
+
+| File | Strokes | Use |
+|---|---|---|
+| `public/logo.png` | ink `#2B211C` | light backgrounds — what the site uses |
+| `public/logo-light.png` | white | spare, for any dark section you add later |
+
+```bash
+python scripts/build-logo.py     # regenerate after replacing public/logo.jpeg
 ```
 
-Nav logo renders at 44px tall (`size="sm"`), footer at 56px (`size="md"`).
+**One deliberate change:** the logo's native orange is `#E8703A`, noticeably
+lighter than the site's burnt orange `#C1440E`. Sitting a few pixels from the
+nav CTA button, two different oranges read as a mistake — so the accent is
+remapped to the brand orange. To keep the original hue instead, set
+`ORANGE = NATIVE_ORANGE` at the top of the script and re-run.
+
+Nav renders at 40px tall (`size="sm"`), footer at 52px (`size="md"`); width
+follows the intrinsic 3.07:1 ratio. Pass `tone="light"` on a dark background.
+
+If you ever get a proper **vector** export, point `LOGO_SRC` at the `.svg` and
+the script becomes unnecessary.
 
 ---
 
@@ -146,7 +165,12 @@ components/
   ui/               Button, Card, Badge, SectionHeading, Reveal,
                     BookCover, Placeholder, Logo, Stars, Icons
 lib/site.ts         nav links, email, socials, genre list
-public/logo.jpeg
+scripts/
+  build-logo.py     regenerates the transparent logo PNGs
+public/
+  logo.jpeg         original source (black background)
+  logo.png          generated: ink strokes, transparent
+  logo-light.png    generated: white strokes, transparent
 ```
 
 ---
