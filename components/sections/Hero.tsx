@@ -177,14 +177,21 @@ export default function Hero() {
             {/* Tagline, not a second headline: roughly a third the size of the
                 line above, and held to ONE line at every breakpoint. The size
                 ceiling is what keeps it on one line — if you lengthen this
-                copy, re-check 375px, where it has ~335px to work with. */}
-            <span className="mt-3 block whitespace-nowrap text-[clamp(1.3rem,2.9vw,2rem)] leading-tight tracking-[0.01em] text-ink/70 sm:mt-4">
+                copy, re-check 375px, where it has ~320px to work with.
+
+                It reads ITALIC and at FULL ink strength on purpose. It sat at
+                `ink/70` first, which on this warm background is virtually the
+                same shade as `muted` — the paragraph below — so the two
+                blocks blurred into one despite differing in size and
+                typeface. Full ink groups it with the headline; the paragraph
+                stays muted sans. Keep that contrast if you restyle. */}
+            <span className="mt-2 block whitespace-nowrap text-[clamp(1.3rem,2.9vw,2rem)] italic leading-tight tracking-[0.01em] text-ink sm:mt-3">
               On your quest, by your side.
             </span>
           </motion.h1>
 
           <motion.p
-            className="mx-auto mt-8 max-w-xl text-lg leading-relaxed text-muted"
+            className="mx-auto mt-9 max-w-xl text-lg leading-relaxed text-muted sm:mt-10"
             {...rise(0.55)}
           >
             Cover and interior design. Upload-ready files for every store. An
