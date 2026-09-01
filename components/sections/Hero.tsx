@@ -12,36 +12,44 @@ import { CountUp, RotatingWord, SplitText } from "@/components/ui/motion/text";
  *
  * HEADLINE OPTIONS — pick one, delete the rest:
  *
- *   A) "Your book. Designed, formatted, and ready to publish."   <-- ACTIVE
- *   B) "You wrote it. We'll make it look like it belongs on a shelf."
- *   C) "Every great manuscript deserves a great cover."
+ *   A) "Your book. Your brand. Your launch."                      <-- ACTIVE
+ *   B) "Designed, formatted, branded, launched."
+ *   C) "Everything your book needs after the last page."
+ *   D) "Your book. Designed, formatted, and ready to publish."   (retired:
+ *      named only two of the four services, so the entry point read as a
+ *      book-design shop and buried the branding and video work.)
  *
  * The active headline is the `chunks` array passed to <SplitText> below —
  * it reveals word by word on load. To change it, edit those strings.
+ *
+ * KEEP ALL FOUR SERVICES VISIBLE ABOVE THE FOLD. The headline, the
+ * subheadline and the four stats below each carry design, formatting,
+ * branding and video. If you edit one, check the others still balance.
  * ============================================================
  */
 
 /**
  * TRUST BAR — TODO: replace with the agency's real numbers before launch.
  *
- * `count` cells animate from zero when scrolled into view.
- * `rotate` cells cycle through words in place — used for the store list,
- * which wrapped onto two lines when all three names were shown at once and
- * knocked the whole row out of alignment.
+ * One stat per service, deliberately: this row is the fastest way a visitor
+ * scanning the first screen learns we do more than books. Do not collapse it
+ * back to four book-related numbers.
+ *
+ * The store names (KDP / IngramSpark / Lulu) moved to the ticker band
+ * immediately below, which is where that credibility signal now lives.
  */
 type Stat =
+  /** Counts up from zero when scrolled into view. */
   | { kind: "count"; value: number; decimals?: number; suffix?: string; label: string }
+  /** Cycles words in place — still supported, currently unused. Useful when a
+   *  cell needs to say several things (e.g. store names) without wrapping. */
   | { kind: "rotate"; words: readonly string[]; label: string };
 
 const trustStats: Stat[] = [
-  { kind: "count", value: 500, suffix: "+", label: "Books formatted" },
   { kind: "count", value: 120, suffix: "+", label: "Covers designed" },
-  {
-    kind: "rotate",
-    words: ["KDP", "IngramSpark", "Lulu", "ePub", "Kindle"],
-    label: "Upload-ready files",
-  },
-  { kind: "count", value: 4.9, decimals: 1, suffix: "/5", label: "Author rating" },
+  { kind: "count", value: 500, suffix: "+", label: "Books formatted" },
+  { kind: "count", value: 60, suffix: "+", label: "Author brands built" },
+  { kind: "count", value: 240, suffix: "+", label: "Videos edited" },
 ];
 
 export default function Hero() {
@@ -147,9 +155,9 @@ export default function Hero() {
             stagger={0.05}
             className="mt-6 font-display text-display-xl font-normal text-ink"
             chunks={[
-              "Your book. ",
+              "Your book. Your brand. Your ",
               {
-                text: "Designed",
+                text: "launch",
                 className: "italic text-primary",
                 after: (
                   <svg
@@ -171,7 +179,7 @@ export default function Hero() {
                   </svg>
                 ),
               },
-              ", formatted, and ready to publish.",
+              ".",
             ]}
           />
 
@@ -179,9 +187,9 @@ export default function Hero() {
             className="mx-auto mt-8 max-w-xl text-lg leading-relaxed text-muted"
             {...rise(0.55)}
           >
-            Covers and interior layout, upload-ready formatting for every store,
-            a brand your readers remember, and video that sells the book. One
-            studio, from final draft to launch day.
+            Cover and interior design. Upload-ready files for every store. An
+            author brand readers recognise on the shelf. Video that makes a
+            stranger stop scrolling. One studio, from final draft to launch day.
           </motion.p>
 
           <motion.div

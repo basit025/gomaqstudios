@@ -7,7 +7,7 @@ import BookCover from "@/components/ui/BookCover";
 import Button from "@/components/ui/Button";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
-import { ArrowRight } from "@/components/ui/Icons";
+import { ArrowRight, Play } from "@/components/ui/Icons";
 import { Magnetic, Tilt } from "@/components/ui/motion/pointer";
 
 /**
@@ -32,12 +32,16 @@ const PROJECTS: {
   category: Exclude<Filter, "All">;
   variant: "ember" | "paper" | "ink";
 }[] = [
+  // Two per category, on purpose: the filter tabs advertise four services, so
+  // every tab must show real range rather than a single lonely tile.
   { name: "The Salt in Her Letters", genre: "Literary Fiction", category: "Book Covers", variant: "ember" },
-  { name: "Quiet Systems", genre: "Non-Fiction", category: "Formatting", variant: "ink" },
   { name: "Nine Winters North", genre: "Memoir", category: "Book Covers", variant: "paper" },
-  { name: "The Lantern Keeper", genre: "Children’s", category: "Branding", variant: "ember" },
+  { name: "Quiet Systems", genre: "Non-Fiction", category: "Formatting", variant: "ink" },
   { name: "Small Hours", genre: "Poetry", category: "Formatting", variant: "paper" },
-  { name: "Begin Again, Better", genre: "Self-Help", category: "Video", variant: "ink" },
+  { name: "The Lantern Keeper", genre: "Children’s series identity", category: "Branding", variant: "ember" },
+  { name: "Harrow & Vale", genre: "Author brand system", category: "Branding", variant: "ink" },
+  { name: "Begin Again, Better", genre: "Launch trailer", category: "Video", variant: "ink" },
+  { name: "The Salt Road", genre: "Reels & social cuts", category: "Video", variant: "ember" },
 ];
 
 export default function Portfolio() {
@@ -92,7 +96,7 @@ export default function Portfolio() {
         {/* ---------- Grid ---------- */}
         <motion.div
           layout
-          className="mt-10 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3"
+          className="mt-10 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4"
         >
           <AnimatePresence mode="popLayout">
             {visible.map((project) => (
@@ -113,6 +117,15 @@ export default function Portfolio() {
                     genre={project.genre}
                     variant={project.variant}
                   />
+
+                  {/* Video work is still shown on a cover mockup, so it needs a
+                      badge — otherwise the grid reads as covers only and the
+                      video service disappears at a glance. */}
+                  {project.category === "Video" && (
+                    <span className="pointer-events-none absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/95 text-primary shadow-soft backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
+                      <Play className="ml-0.5 h-4 w-4" />
+                    </span>
+                  )}
 
                   {/* Hover overlay — project name + genre. */}
                   <div className="pointer-events-none absolute inset-0 flex flex-col justify-end rounded-l-[3px] rounded-r-xl bg-gradient-to-t from-ink/90 via-ink/35 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:p-5">

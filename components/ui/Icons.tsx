@@ -57,6 +57,13 @@ export const Mail = (p: IconProps) => (
   </Base>
 );
 
+/** Filled play triangle — badges the video work in the portfolio grid. */
+export const Play = (p: IconProps) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...p}>
+    <path d="M8.5 6.4a1 1 0 0 1 1.52-.85l7.2 4.6a1 1 0 0 1 0 1.7l-7.2 4.6A1 1 0 0 1 8.5 15.6z" />
+  </svg>
+);
+
 export const Quote = (p: IconProps) => (
   <Base {...p}>
     <path d="M9.5 6C6.5 7.5 5 10 5 13v5h5v-6H7.5c0-2 .7-3.6 2-4.6ZM19 6c-3 1.5-4.5 4-4.5 7v5h5v-6H17c0-2 .7-3.6 2-4.6Z" />

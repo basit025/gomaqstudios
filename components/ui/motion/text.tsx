@@ -158,6 +158,11 @@ export function CountUp({
       duration,
       ease: [0.16, 1, 0.3, 1],
       onUpdate: setShown,
+      // Snap to the exact target. Without this the last frame can land a
+      // fraction short and render "499+" instead of "500+" — the easing has a
+      // long tail, and any dropped final frame leaves the wrong number on
+      // screen permanently.
+      onComplete: () => setShown(value),
     });
     return () => controls.stop();
   }, [inView, value, duration, reduced]);

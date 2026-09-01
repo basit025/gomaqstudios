@@ -70,18 +70,48 @@ file**, marked with a `TODO` or `PLACEHOLDER` comment.
 | What | File | Look for |
 |---|---|---|
 | **Prices** ($499 / $1,299 / $2,499) | [`components/sections/Pricing.tsx`](components/sections/Pricing.tsx) | `const TIERS` — each has `price: "..." // PLACEHOLDER` |
-| **Hero stats** (500+ books, 4.9/5 …) | [`components/sections/Hero.tsx`](components/sections/Hero.tsx) | `const trustStats` |
+| **Hero stats** (120+ covers, 500+ books, 60+ brands, 240+ videos) | [`components/sections/Hero.tsx`](components/sections/Hero.tsx) | `const trustStats` — one per service, see note below |
 | **Testimonials** (names + quotes) | [`components/sections/Testimonials.tsx`](components/sections/Testimonials.tsx) | `const TESTIMONIALS` — all six are invented |
-| **Portfolio projects** | [`components/sections/Portfolio.tsx`](components/sections/Portfolio.tsx) | `const PROJECTS` |
+| **Portfolio projects** | [`components/sections/Portfolio.tsx`](components/sections/Portfolio.tsx) | `const PROJECTS` — two per service category |
 | **Service descriptions** | [`components/sections/Services.tsx`](components/sections/Services.tsx) | `const SERVICES` |
 | **Process steps** | [`components/sections/HowItWorks.tsx`](components/sections/HowItWorks.tsx) | `const STEPS` |
 | **Email, socials, nav links, genres** | [`lib/site.ts`](lib/site.ts) | all of it — social `href`s are `#` |
-| **Hero headline alternates** | [`components/sections/Hero.tsx`](components/sections/Hero.tsx) | comment block at the top — options A / B / C, A is live |
+| **Hero headline alternates** | [`components/sections/Hero.tsx`](components/sections/Hero.tsx) | comment block at the top — options A / B / C / D, A is live |
+| **Ticker band items** | [`components/sections/Ticker.tsx`](components/sections/Ticker.tsx) | `const ITEMS` |
 
 ### Two things to change before launch
 
 1. **Email** — `lib/site.ts` → `site.email` is `hello@gomaqstudios.com`.
 2. **Social URLs** — `lib/site.ts` → `socials[].href` are all `#`.
+
+---
+
+## Keeping all four services visible
+
+The site sells four things — **book design, formatting, author branding and
+video editing** — and it is very easy for the top of the page to drift back
+into reading as a book-formatting shop, because books are the most concrete
+thing to write about. Four places above the fold deliberately carry all four
+services. If you edit one, check the others still balance:
+
+1. **Hero headline** — *"Your book. Your brand. Your launch."* Three beats, one
+   per domain. (The retired headline, *"Your book. Designed, formatted, and
+   ready to publish"*, named only two of the four — it is kept as option D in
+   the comment block so the trap is documented.)
+2. **Hero subheadline** — one sentence per service, in service order.
+3. **Trust bar** — one stat per service: covers designed, books formatted,
+   author brands built, videos edited. Do not collapse these back to four
+   book-related numbers; this row is the fastest way a scanning visitor learns
+   the range.
+4. **Ticker band** — the deliverable list spans design, formatting, branding
+   and video rather than listing eight print formats.
+
+Further down, the portfolio carries **two projects per category** so no filter
+tab shows a single lonely tile, and video projects get a play badge so they
+read as video at a glance rather than as another book cover.
+
+The store names (KDP / IngramSpark / Lulu) moved out of the trust bar into the
+ticker band, which is where that credibility signal now lives.
 
 ---
 

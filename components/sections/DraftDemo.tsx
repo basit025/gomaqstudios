@@ -428,8 +428,9 @@ export default function DraftDemo() {
                       </p>
                       <p className="mt-3 text-[15px] leading-relaxed text-muted">
                         A rough concept, not the finished book. The real thing
-                        gets custom typography, original artwork, a print-ready
-                        spine and back cover, and interior pages typeset to match.
+                        gets custom typography, original artwork, print-ready
+                        files — and, if you want it, the author brand and launch
+                        video that go around the book.
                       </p>
 
                       <ul className="mt-5 space-y-2.5">
@@ -437,6 +438,8 @@ export default function DraftDemo() {
                           "Full cover: front, spine and back",
                           "Interior layout your reader forgets is there",
                           "Upload-ready files for KDP, IngramSpark and Lulu",
+                          "An author brand that carries to book two",
+                          "A trailer and reels cut for the scroll",
                         ].map((item) => (
                           <li key={item} className="flex items-start gap-2.5">
                             <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />

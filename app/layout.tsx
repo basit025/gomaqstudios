@@ -4,13 +4,13 @@ import { display, sans, script } from "./fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Gomaq Studios — Your Book, Ready to Publish",
+  title: "Gomaq Studios — Book Design, Branding & Video for Authors",
   description:
-    "Cover design, interior layout, print- and eBook-ready formatting, author branding and video editing for independent authors. KDP, IngramSpark and Lulu ready.",
+    "One studio for independent authors: cover and interior design, upload-ready formatting for KDP, IngramSpark and Lulu, complete author branding, and video editing for trailers and reels.",
   openGraph: {
-    title: "Gomaq Studios — Your Book, Ready to Publish",
+    title: "Gomaq Studios — Book Design, Branding & Video for Authors",
     description:
-      "Cover design, interior layout, formatting, branding and video editing for independent authors.",
+      "Cover and interior design, store-ready formatting, author branding and video editing — for independent authors.",
     type: "website",
   },
 };
