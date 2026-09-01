@@ -69,7 +69,7 @@ file**, marked with a `TODO` or `PLACEHOLDER` comment.
 
 | What | File | Look for |
 |---|---|---|
-| **Prices** ($499 / $1,299 / $2,499) | [`components/sections/Pricing.tsx`](components/sections/Pricing.tsx) | `const TIERS` — each has `price: "..." // PLACEHOLDER` |
+| **Prices** ($797 / $1,997 / $3,497) | [`components/sections/Pricing.tsx`](components/sections/Pricing.tsx) | `const TIERS` (marked `// CONFIRM`) and `const SINGLE_SERVICES` — see note below |
 | **Hero stats** (120+ covers, 500+ books, 60+ brands, 240+ videos) | [`components/sections/Hero.tsx`](components/sections/Hero.tsx) | `const trustStats` — one per service, see note below |
 | **Testimonials** (names + quotes) | [`components/sections/Testimonials.tsx`](components/sections/Testimonials.tsx) | `const TESTIMONIALS` — all six are invented |
 | **Portfolio projects** | [`components/sections/Portfolio.tsx`](components/sections/Portfolio.tsx) | `const PROJECTS` — two per service category |
@@ -83,6 +83,34 @@ file**, marked with a `TODO` or `PLACEHOLDER` comment.
 
 1. **Email** — `lib/site.ts` → `site.email` is `hello@gomaqstudios.com`.
 2. **Social URLs** — `lib/site.ts` → `socials[].href` are all `#`.
+
+---
+
+## Pricing — a proposal, not a decision
+
+The numbers in `Pricing.tsx` are marked `// CONFIRM`. They are benchmarked
+against **HMD Publishing** (£997 / £2,997 / £4,997), whose structure the tiers
+borrow: a three-rung ladder, a most-popular badge on the middle rung,
+turnaround and revision rounds stated up front, and a row of individual
+"from $X" services underneath.
+
+**They are deliberately not a currency conversion of HMD's.** HMD's packages
+include proofreading and editing, Amazon Ads management, audiobook production,
+an author website and PR outreach — none of which this studio offers. Pricing
+at parity would mean charging a comparable amount for materially less. Each
+tier therefore sits below its HMD equivalent, and no copy implies editing is
+included.
+
+The `.97` endings are the convention in this category. Swap them for round
+numbers if you would rather read as a design studio than a publishing service.
+
+Two structural borrowings worth keeping:
+
+- **Turnaround and revision rounds sit with the price**, not buried in the
+  bullets — they are the first two questions an author asks.
+- **The à la carte row** (`SINGLE_SERVICES`) catches authors who only need one
+  thing, and doubles as another reminder that the studio covers all four
+  services.
 
 ---
 
