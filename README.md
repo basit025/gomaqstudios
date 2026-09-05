@@ -278,21 +278,37 @@ public/
 
 ---
 
-## The 100-Minute Draft widget
+## The 100-Minute Draft
 
-`components/sections/DraftDemo.tsx` is the conversion centrepiece and the one
-piece of real interactivity: genre → title → a scripted 4-stage build (~5s) →
-a mock cover carrying the visitor's own title.
+`components/sections/DraftDemo.tsx` is the conversion centrepiece: a short,
+low-friction form that captures a brief so the studio can get in touch.
 
-**It is a simulation.** Nothing is generated, sent or stored. That's
-intentional and documented in a comment block at the top of the file, which
-also lists exactly how to make it real — the highest-value change being to
-capture an email on the result step and POST to `app/api/draft/route.ts`.
+**It is not a generator, and it must never look like one.** The first version
+of this widget played a five-second fake progress bar and produced an
+auto-generated mock cover. That promised the wrong thing twice over — it
+implied the draft is machine-made when a designer makes it, and a draft built
+from a genre and a title alone could never match what a client actually wants.
 
-The `STAGES` array is deliberately shaped like a job queue so it can be driven
-by real job status later without restructuring the component.
+The flow now mirrors the real process exactly:
 
----
+1. **Craft** — what are you making (three book routes, plus brand, trailer, reels)
+2. **Brief** — project name and notes, both optional
+3. **You** — name and email, the only required fields
+4. **Confirmation** — what happens next, in the studio's real order: we read
+   your brief → we ask what's missing → your draft, 100 minutes later
+
+Only name and email are required, on purpose: the requirements conversation
+happens afterwards, so the form's job is to start it, not to replace it.
+
+The artifact shown on the confirmation screen is **existing work in that
+craft**, captioned as such. If you change that copy, keep it clearly labelled
+as an example — never as "your draft".
+
+**It does not submit anywhere yet.** The `TODO` block at the top of the file
+has the exact `fetch` to drop in once `app/api/draft/route.ts` exists, plus
+the three analytics events worth firing (craft select, reaching the contact
+step, submit) — the drop-off between those is the most useful number this page
+can give you.
 
 ## Forms
 
