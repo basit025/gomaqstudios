@@ -118,6 +118,44 @@ Two structural borrowings worth keeping:
 
 ## Keeping all four services visible
 
+The site sells four things, and it drifts back toward "book studio" very
+easily — books are simply the most concrete thing to write copy about, and the
+first version of this site proved it. Copy-level fixes were not enough; the
+**artifacts** were book-shaped too.
+
+### The artifact layer
+
+There are three CSS-only mockup components, one per medium. They exist so that
+every service has something to *show*, not just something to claim:
+
+| Component | Shape | Used for |
+|---|---|---|
+| [`ui/BookCover.tsx`](components/ui/BookCover.tsx) | 2:3 | covers, formatting |
+| [`ui/BrandMark.tsx`](components/ui/BrandMark.tsx) | 1:1 | author identity |
+| [`ui/VideoFrame.tsx`](components/ui/VideoFrame.tsx) | 16:9 / 9:16 | trailers, reels |
+
+All three pin their colours to literal hex rather than theme tokens — they are
+artwork, and artwork looks the same in either theme.
+
+They appear together in three places, which is what makes the range legible
+rather than asserted: the **hero margins**, the **portfolio mosaic**, and the
+**result of the 100-Minute Draft**.
+
+### Where "book-only" keeps creeping back in
+
+Each of these was a real regression found in review. Check them if you edit:
+
+- The **demo's first step** listed six book genres, so the flagship feature
+  could only ever produce a cover. It now offers three book routes plus brand,
+  trailer and reels, and the build stages and result copy change per craft.
+- The **portfolio** rendered video and branding work on book covers.
+- **How It Works** asked for a manuscript — a video client has none.
+- **Pricing** said "per book".
+- The **contact form** asked for a book genre, telling anyone there for
+  branding or video they were on the wrong form. It now asks what you need,
+  from `services` in `lib/site.ts`.
+
+
 The site sells four things — **book design, formatting, author branding and
 video editing** — and it is very easy for the top of the page to drift back
 into reading as a book-formatting shop, because books are the most concrete

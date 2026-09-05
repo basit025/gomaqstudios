@@ -4,45 +4,83 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Badge from "@/components/ui/Badge";
 import BookCover from "@/components/ui/BookCover";
+import BrandMark from "@/components/ui/BrandMark";
+import VideoFrame from "@/components/ui/VideoFrame";
 import Button from "@/components/ui/Button";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
-import { ArrowRight, Play } from "@/components/ui/Icons";
+import { ArrowRight } from "@/components/ui/Icons";
 import { Magnetic, Tilt } from "@/components/ui/motion/pointer";
 
 /**
  * ============================================================
- * PORTFOLIO
+ * PORTFOLIO — mixed-media mosaic
  *
- * PLACEHOLDER PROJECTS — replace the PROJECTS array with real work.
- * Each item currently renders a CSS-only <BookCover /> mockup so nothing
- * is ever a broken image. To use real artwork, swap the <BookCover />
- * for <Image src={project.image} ... /> and add `image` to each entry.
+ * Every tile used to be a 2:3 <BookCover />, including the branding and video
+ * work. That single decision did more to make the studio look book-only than
+ * any of the copy: a visitor scanning the grid saw a shelf of books, so the
+ * "Branding" and "Video" tabs read as wishful labelling.
  *
- * Filtering is entirely client-side — no backend involved.
+ * Each project now renders in its OWN medium — 2:3 covers, 1:1 brand boards,
+ * 16:9 trailers, 9:16 reels — laid out as a masonry. The varied shapes do two
+ * jobs: they prove the range at a glance, and a ragged editorial mosaic looks
+ * like a creative studio in a way a tidy grid of identical rectangles does not.
+ *
+ * Layout is CSS multi-column rather than a grid with span maths, so each tile
+ * keeps its true aspect ratio and the columns pack themselves. Framer's
+ * `layout` prop is deliberately NOT used here — it fights multi-column reflow
+ * — so filtering cross-fades rather than morphing.
+ *
+ * PLACEHOLDER PROJECTS — replace with real work. For real artwork, swap the
+ * artifact component for <Image /> inside the same wrapper.
  * ============================================================
  */
 
 const FILTERS = ["All", "Book Covers", "Formatting", "Branding", "Video"] as const;
 type Filter = (typeof FILTERS)[number];
+type Media = "cover" | "brand" | "video" | "reel";
 
-const PROJECTS: {
+type Project = {
   name: string;
   genre: string;
   category: Exclude<Filter, "All">;
+  media: Media;
   variant: "ember" | "paper" | "ink";
-}[] = [
-  // Two per category, on purpose: the filter tabs advertise four services, so
-  // every tab must show real range rather than a single lonely tile.
-  { name: "The Salt in Her Letters", genre: "Literary Fiction", category: "Book Covers", variant: "ember" },
-  { name: "Nine Winters North", genre: "Memoir", category: "Book Covers", variant: "paper" },
-  { name: "Quiet Systems", genre: "Non-Fiction", category: "Formatting", variant: "ink" },
-  { name: "Small Hours", genre: "Poetry", category: "Formatting", variant: "paper" },
-  { name: "The Lantern Keeper", genre: "Children’s series identity", category: "Branding", variant: "ember" },
-  { name: "Harrow & Vale", genre: "Author brand system", category: "Branding", variant: "ink" },
-  { name: "Begin Again, Better", genre: "Launch trailer", category: "Video", variant: "ink" },
-  { name: "The Salt Road", genre: "Reels & social cuts", category: "Video", variant: "ember" },
+};
+
+const PROJECTS: Project[] = [
+  // Two per category, each shown in the medium the work actually ships in.
+  { name: "The Salt in Her Letters", genre: "Literary fiction", category: "Book Covers", media: "cover", variant: "ember" },
+  { name: "Nine Winters North", genre: "Memoir", category: "Book Covers", media: "cover", variant: "paper" },
+  { name: "Quiet Systems", genre: "Interior + print files", category: "Formatting", media: "cover", variant: "ink" },
+  { name: "Small Hours", genre: "Poetry typesetting", category: "Formatting", media: "cover", variant: "paper" },
+  { name: "Harrow & Vale", genre: "Author brand system", category: "Branding", media: "brand", variant: "ink" },
+  { name: "The Lantern Keeper", genre: "Children’s series identity", category: "Branding", media: "brand", variant: "ember" },
+  { name: "Begin Again, Better", genre: "Launch trailer", category: "Video", media: "video", variant: "ink" },
+  { name: "The Salt Road", genre: "Reels & social cuts", category: "Video", media: "reel", variant: "ember" },
 ];
+
+/** Renders a project in its own medium. */
+function Artifact({ project }: { project: Project }) {
+  switch (project.media) {
+    case "brand":
+      return <BrandMark name={project.name} kind={project.genre} variant={project.variant} />;
+    case "video":
+      return <VideoFrame title={project.name} kind={project.genre} ratio="wide" />;
+    case "reel":
+      return (
+        <VideoFrame
+          title={project.name}
+          kind={project.genre}
+          ratio="reel"
+          duration="0:18"
+          progress={0.6}
+        />
+      );
+    default:
+      return <BookCover title={project.name} genre={project.genre} variant={project.variant} />;
+  }
+}
 
 export default function Portfolio() {
   const [filter, setFilter] = useState<Filter>("All");
@@ -55,8 +93,8 @@ export default function Portfolio() {
       <div className="shell">
         <SectionHeading
           eyebrow="Selected work"
-          title="Books we were proud to send out."
-          subtitle="A sample of covers, layouts, author brands and launch video. Real projects, real authors, real shelves."
+          title="Covers, brands, trailers, reels."
+          subtitle="Filter by the thing you came here for. Every tile is shown in the medium it actually ships in."
         />
 
         {/* ---------- Filter tabs ---------- */}
@@ -72,7 +110,7 @@ export default function Portfolio() {
                   aria-pressed={active}
                   className={`relative isolate shrink-0 rounded-full px-4 py-2 text-[13px] font-semibold transition-colors duration-200 ${
                     active
-                      ? "text-white"
+                      ? "text-on-primary"
                       : "bg-surface text-ink/70 ring-1 ring-inset ring-line hover:text-primary hover:ring-primary/50"
                   }`}
                 >
@@ -93,55 +131,39 @@ export default function Portfolio() {
           </div>
         </Reveal>
 
-        {/* ---------- Grid ---------- */}
-        <motion.div
-          layout
-          className="mt-10 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4"
-        >
+        {/* ---------- Mosaic ---------- */}
+        <div className="mt-10 gap-5 sm:columns-2 lg:columns-3">
           <AnimatePresence mode="popLayout">
             {visible.map((project) => (
               <motion.article
                 key={project.name}
-                layout
-                initial={{ opacity: 0, scale: 0.94 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.94 }}
+                exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                className="group cursor-pointer"
+                className="group mb-5 block break-inside-avoid cursor-pointer"
               >
-                {/* The cover leans toward the cursor, so the grid reads as a
-                    shelf of physical objects rather than flat thumbnails. */}
-                <Tilt className="relative" max={10} scale={1.04}>
-                  <BookCover
-                    title={project.name}
-                    genre={project.genre}
-                    variant={project.variant}
-                  />
+                {/* Tiles lean toward the cursor, so the mosaic reads as a set
+                    of physical objects rather than flat thumbnails. */}
+                <Tilt className="relative" max={9} scale={1.03}>
+                  <Artifact project={project} />
 
-                  {/* Video work is still shown on a cover mockup, so it needs a
-                      badge — otherwise the grid reads as covers only and the
-                      video service disappears at a glance. */}
-                  {project.category === "Video" && (
-                    <span className="pointer-events-none absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-surface/95 text-primary shadow-soft backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
-                      <Play className="ml-0.5 h-4 w-4" />
-                    </span>
-                  )}
-
-                  {/* Hover overlay — project name + genre. */}
-                  <div className="pointer-events-none absolute inset-0 flex flex-col justify-end rounded-l-[3px] rounded-r-xl bg-gradient-to-t from-black/85 via-black/40 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:p-5">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-primary">
-                    {project.category}
-                  </p>
-                  <h3 className="mt-1.5 font-display text-base font-normal leading-tight text-white sm:text-lg">
-                    {project.name}
-                  </h3>
+                  {/* Hover overlay. `ink` inverts in dark mode, so the scrim is
+                      pinned to black and its text to white. */}
+                  <div className="pointer-events-none absolute inset-0 flex flex-col justify-end rounded-xl bg-gradient-to-t from-black/85 via-black/40 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:p-5">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-primary">
+                      {project.category}
+                    </p>
+                    <h3 className="mt-1.5 font-display text-base font-normal leading-tight text-white sm:text-lg">
+                      {project.name}
+                    </h3>
                     <p className="mt-0.5 text-[12px] text-white/70">{project.genre}</p>
                   </div>
                 </Tilt>
               </motion.article>
             ))}
           </AnimatePresence>
-        </motion.div>
+        </div>
 
         {/* Empty state — only reachable if a filter is emptied during edits. */}
         {visible.length === 0 && (
@@ -158,11 +180,11 @@ export default function Portfolio() {
         )}
 
         <Reveal delay={0.1}>
-          <div className="mt-12 flex flex-col items-center gap-4">
+          <div className="mt-8 flex flex-col items-center gap-4">
             <Badge tone="soft">More work available on request</Badge>
             <Magnetic>
               <Button href="#contact" size="lg" className="group">
-                Ask to see books like yours
+                Ask to see work like yours
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             </Magnetic>

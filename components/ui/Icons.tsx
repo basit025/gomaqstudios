@@ -112,6 +112,15 @@ export const IconVideo = (p: IconProps) => (
   </Base>
 );
 
+/** Social reels — vertical frame with a play head. */
+export const IconReel = (p: IconProps) => (
+  <Base {...p}>
+    <rect x="6.25" y="2.75" width="11.5" height="18.5" rx="2.5" />
+    <path d="m10.9 9.4 3.6 1.85-3.6 1.85z" />
+    <path d="M9.5 17.75h5" />
+  </Base>
+);
+
 /* ---------- Genres (100-Minute Draft widget) ---------- */
 
 /** Fiction — open book. */

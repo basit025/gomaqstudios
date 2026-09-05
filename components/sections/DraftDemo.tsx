@@ -5,16 +5,18 @@ import { AnimatePresence, motion } from "framer-motion";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
 import BookCover from "@/components/ui/BookCover";
+import BrandMark from "@/components/ui/BrandMark";
+import VideoFrame from "@/components/ui/VideoFrame";
 import Reveal from "@/components/ui/Reveal";
 import {
   ArrowRight,
   Check,
-  IconChildrens,
+  IconBrand,
   IconFiction,
   IconMemoir,
   IconNonFiction,
-  IconPoetry,
-  IconSelfHelp,
+  IconReel,
+  IconVideo,
 } from "@/components/ui/Icons";
 import { Magnetic, Spotlight, Tilt } from "@/components/ui/motion/pointer";
 
@@ -25,8 +27,9 @@ import { Magnetic, Spotlight, Tilt } from "@/components/ui/motion/pointer";
  *
  * WHAT THIS IS
  * A *simulation*. Nothing is generated, sent, or stored. The visitor picks a
- * genre, optionally types a title, watches a scripted 4-stage "build", and is
- * shown a CSS-only mock cover (<BookCover />) built from their own inputs.
+ * CRAFT (three book routes, plus brand, trailer and reels), optionally names
+ * it, watches a scripted 4-stage build, and is shown a CSS-only mock artifact
+ * in that craft's own medium — cover, brand board or video frame.
  * The point is momentum: by the time they see their title on a cover, they
  * have already invested two clicks and want the real thing.
  *
@@ -51,57 +54,130 @@ import { Magnetic, Spotlight, Tilt } from "@/components/ui/motion/pointer";
  * ============================================================================
  */
 
-const GENRES = [
-  { name: "Fiction", icon: IconFiction, blurb: "Novels & series" },
-  { name: "Non-Fiction", icon: IconNonFiction, blurb: "Ideas & expertise" },
-  { name: "Memoir", icon: IconMemoir, blurb: "Your life, told well" },
-  { name: "Children’s", icon: IconChildrens, blurb: "Picture & chapter" },
-  { name: "Poetry", icon: IconPoetry, blurb: "Verse & collections" },
-  { name: "Self-Help", icon: IconSelfHelp, blurb: "Change & growth" },
+/**
+ * The six things a visitor might be here to make.
+ *
+ * This picker used to list six BOOK GENRES, which meant the studio's flagship
+ * interactive feature could only ever produce a book cover. Someone who came
+ * for a trailer or an author brand got told, by the most engaging thing on the
+ * page, that we make books. Now three of the six routes lead somewhere other
+ * than a cover, and each one previews the artifact that service delivers.
+ *
+ * `kind` decides three things: the build stages, the result artifact, and the
+ * wording of the result copy.
+ */
+const CRAFTS = [
+  { name: "Fiction", icon: IconFiction, blurb: "Novels & series", kind: "book", variant: "ember" },
+  { name: "Non-Fiction", icon: IconNonFiction, blurb: "Ideas & expertise", kind: "book", variant: "ink" },
+  { name: "Memoir", icon: IconMemoir, blurb: "Your life, told well", kind: "book", variant: "paper" },
+  { name: "Author brand", icon: IconBrand, blurb: "A shelf, not one book", kind: "brand", variant: "ink" },
+  { name: "Book trailer", icon: IconVideo, blurb: "Video that sells it", kind: "video", variant: "ember" },
+  { name: "Social reels", icon: IconReel, blurb: "Cuts that stop a scroll", kind: "reel", variant: "paper" },
 ] as const;
 
-/** Scripted build stages. ~1.2s each -> roughly 5 seconds end to end. */
-const STAGES = [
-  "Analysing genre conventions",
-  "Drafting cover concept",
-  "Formatting interior layout",
-  "Finalising your preview",
-] as const;
+type Craft = (typeof CRAFTS)[number];
+type Kind = Craft["kind"];
+
+/**
+ * Scripted build stages, per craft. ~1.2s each -> roughly 5 seconds end to end.
+ * Each set names steps that craft actually involves, so the simulation reads
+ * as competence rather than as a loading bar with four generic labels.
+ */
+const STAGES_BY_KIND: Record<Kind, readonly string[]> = {
+  book: [
+    "Analysing genre conventions",
+    "Drafting cover concept",
+    "Formatting interior layout",
+    "Finalising your preview",
+  ],
+  brand: [
+    "Reading your author voice",
+    "Sketching the monogram",
+    "Building the palette & type",
+    "Finalising your preview",
+  ],
+  video: [
+    "Finding the opening beat",
+    "Cutting to the hook",
+    "Grading the look",
+    "Finalising your preview",
+  ],
+  reel: [
+    "Picking the scroll-stopper",
+    "Cutting for vertical",
+    "Timing to the track",
+    "Finalising your preview",
+  ],
+};
+
+/** What the result step promises, per craft. */
+const RESULT_COPY: Record<Kind, { blurb: string; points: readonly string[] }> = {
+  book: {
+    blurb:
+      "A rough concept, not the finished book. The real thing gets custom typography, original artwork, print-ready files — and, if you want it, the brand and launch video around it.",
+    points: [
+      "Full cover: front, spine and back",
+      "Interior layout your reader forgets is there",
+      "Upload-ready files for KDP, IngramSpark and Lulu",
+    ],
+  },
+  brand: {
+    blurb:
+      "A first pass at your identity, not the finished system. The real thing gets a drawn mark, a full palette, type rules and templates that carry across every book you publish.",
+    points: [
+      "Author logo & wordmark",
+      "Colour, type and series rules",
+      "Templates for covers and social",
+    ],
+  },
+  video: {
+    blurb:
+      "A rough frame, not the finished cut. The real thing is edited to your book's tone, graded, scored and delivered in every aspect ratio the stores and socials ask for.",
+    points: [
+      "Book trailer, cut to the hook",
+      "Colour grade and sound design",
+      "Delivered for YouTube, Amazon and socials",
+    ],
+  },
+  reel: {
+    blurb:
+      "A rough frame, not the finished cut. The real thing is a set of vertical cuts built to stop a scroll — captioned, paced to the track, and sized for every platform.",
+    points: [
+      "Vertical cuts for Reels, Shorts & TikTok",
+      "Burned-in captions and hooks",
+      "A month of posts from one shoot",
+    ],
+  },
+};
 
 const STAGE_MS = 1200;
-
-/** Cover skin per genre, so each result feels considered rather than random. */
-const COVER_SKIN: Record<string, "ember" | "paper" | "ink"> = {
-  Fiction: "ember",
-  "Non-Fiction": "ink",
-  Memoir: "paper",
-  "Children’s": "ember",
-  Poetry: "paper",
-  "Self-Help": "ink",
-};
 
 type Step = "genre" | "title" | "building" | "result";
 
 export default function DraftDemo() {
   const [step, setStep] = useState<Step>("genre");
-  const [genre, setGenre] = useState<string>("");
+  const [craftName, setCraftName] = useState<string>("");
   const [title, setTitle] = useState("");
   const [stage, setStage] = useState(0);
+
+  const craft: Craft = CRAFTS.find((c) => c.name === craftName) ?? CRAFTS[0];
+  const stages = STAGES_BY_KIND[craft.kind];
+  const resultCopy = RESULT_COPY[craft.kind];
 
   /** Runs the scripted build, then reveals the cover. */
   useEffect(() => {
     if (step !== "building") return;
 
-    if (stage >= STAGES.length) {
+    if (stage >= stages.length) {
       const done = setTimeout(() => setStep("result"), 450);
       return () => clearTimeout(done);
     }
     const next = setTimeout(() => setStage((s) => s + 1), STAGE_MS);
     return () => clearTimeout(next);
-  }, [step, stage]);
+  }, [step, stage, stages.length]);
 
-  const selectGenre = (name: string) => {
-    setGenre(name);
+  const selectCraft = (name: string) => {
+    setCraftName(name);
     // Small beat so the selected state registers before the step changes.
     setTimeout(() => setStep("title"), 260);
   };
@@ -113,13 +189,16 @@ export default function DraftDemo() {
 
   const reset = () => {
     setStep("genre");
-    setGenre("");
+    setCraftName("");
     setTitle("");
     setStage(0);
   };
 
-  const displayTitle = title.trim() || "Untitled Manuscript";
-  const progress = Math.min((stage / STAGES.length) * 100, 100);
+  // The placeholder has to suit whichever craft was picked.
+  const displayTitle =
+    title.trim() ||
+    (craft.kind === "brand" ? "Your Name Here" : "Untitled Project");
+  const progress = Math.min((stage / stages.length) * 100, 100);
   const stepIndex = step === "genre" ? 0 : step === "title" ? 1 : 2;
 
   return (
@@ -142,8 +221,8 @@ export default function DraftDemo() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-5 text-[17px] leading-relaxed text-muted">
-              See exactly what your book could look like &mdash; before you
-              commit to anything. Pick a genre, tell us the title, and watch a
+              See exactly what your project could look like &mdash; before you
+              commit to anything. Pick a craft, tell us the name, and watch a
               concept take shape.
             </p>
           </Reveal>
@@ -154,7 +233,7 @@ export default function DraftDemo() {
           <div className="mx-auto max-w-4xl overflow-hidden rounded-[28px] border border-primary/25 bg-surface shadow-lift">
             {/* Stepper rail */}
             <div className="flex items-center gap-3 border-b border-line bg-primary-light/60 px-5 py-4 sm:px-8">
-              {["Genre", "Title", "Preview"].map((label, i) => (
+              {["Craft", "Name", "Preview"].map((label, i) => (
                 <div key={label} className="flex flex-1 items-center gap-3">
                   <div className="flex items-center gap-2.5">
                     <span
@@ -196,16 +275,17 @@ export default function DraftDemo() {
                     transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                   >
                     <p className="font-display text-xl font-normal text-ink sm:text-2xl">
-                      What are you writing?
+                      What are you making?
                     </p>
                     <p className="mt-2 text-[15px] text-muted">
-                      Every genre has its own visual language. Pick yours.
+                      A book, a brand, or the video around it. Every craft has
+                      its own visual language — pick yours.
                     </p>
 
                     <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3">
-                      {GENRES.map((g) => {
+                      {CRAFTS.map((g) => {
                         const Icon = g.icon;
-                        const active = genre === g.name;
+                        const active = craftName === g.name;
                         return (
                           <Tilt key={g.name} max={8} scale={1.04}>
                             <Spotlight
@@ -217,7 +297,7 @@ export default function DraftDemo() {
                             >
                           <button
                             type="button"
-                            onClick={() => selectGenre(g.name)}
+                            onClick={() => selectCraft(g.name)}
                             aria-pressed={active}
                             className="group flex h-full w-full flex-col items-start gap-3 rounded-2xl p-4 text-left sm:p-5"
                           >
@@ -257,13 +337,13 @@ export default function DraftDemo() {
                     transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                   >
                     <div className="flex flex-wrap items-center gap-3">
-                      <Badge tone="soft">{genre}</Badge>
+                      <Badge tone="soft">{craft.name}</Badge>
                       <button
                         type="button"
                         onClick={() => setStep("genre")}
                         className="text-[13px] font-medium text-muted underline decoration-line underline-offset-4 transition-colors hover:text-primary"
                       >
-                        Change genre
+                        Change
                       </button>
                     </div>
 
@@ -271,7 +351,7 @@ export default function DraftDemo() {
                       What&rsquo;s it called?
                     </p>
                     <p className="mt-2 text-[15px] text-muted">
-                      A working title is fine &mdash; you can change it a hundred
+                      A working name is fine &mdash; you can change it a hundred
                       more times. Or skip ahead and we&rsquo;ll use a placeholder.
                     </p>
 
@@ -283,7 +363,7 @@ export default function DraftDemo() {
                       className="mt-6"
                     >
                       <label htmlFor="draft-title" className="sr-only">
-                        Book title
+                        Project name
                       </label>
                       <input
                         id="draft-title"
@@ -330,7 +410,7 @@ export default function DraftDemo() {
                         Building &ldquo;{displayTitle}&rdquo;
                       </p>
                       <p className="mt-2 text-center text-[15px] text-muted">
-                        {genre} &middot; concept preview
+                        {craft.name} &middot; concept preview
                       </p>
 
                       {/* Progress bar */}
@@ -347,9 +427,9 @@ export default function DraftDemo() {
                       <ul
                         className="mt-7 space-y-3"
                         aria-live="polite"
-                        aria-busy={stage < STAGES.length}
+                        aria-busy={stage < stages.length}
                       >
-                        {STAGES.map((label, i) => {
+                        {stages.map((label, i) => {
                           const done = stage > i;
                           const active = stage === i;
                           return (
@@ -406,19 +486,42 @@ export default function DraftDemo() {
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                    className="grid items-center gap-8 sm:gap-10 md:grid-cols-[minmax(0,240px)_1fr]"
+                    className={`grid items-center gap-8 sm:gap-10 ${
+                      craft.kind === "video"
+                        ? "md:grid-cols-[minmax(0,340px)_1fr]"
+                        : "md:grid-cols-[minmax(0,240px)_1fr]"
+                    }`}
                   >
                     <motion.div
                       initial={{ opacity: 0, rotateY: -14, scale: 0.94 }}
                       animate={{ opacity: 1, rotateY: 0, scale: 1 }}
                       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-                      className="mx-auto w-full max-w-[240px]"
+                      className={`mx-auto w-full ${craft.kind === "video" ? "max-w-[340px]" : "max-w-[240px]"}`}
                     >
-                      <BookCover
-                        title={displayTitle}
-                        genre={genre}
-                        variant={COVER_SKIN[genre] ?? "ember"}
-                      />
+                      {/* The artifact matches the craft that was picked, so a
+                          visitor who came for video is shown video. */}
+                      {craft.kind === "book" && (
+                        <BookCover
+                          title={displayTitle}
+                          genre={craft.name}
+                          variant={craft.variant}
+                        />
+                      )}
+                      {craft.kind === "brand" && (
+                        <BrandMark name={displayTitle} variant={craft.variant} />
+                      )}
+                      {craft.kind === "video" && (
+                        <VideoFrame title={displayTitle} kind="Launch trailer" ratio="wide" />
+                      )}
+                      {craft.kind === "reel" && (
+                        <VideoFrame
+                          title={displayTitle}
+                          kind="Social cut"
+                          ratio="reel"
+                          duration="0:18"
+                          progress={0.6}
+                        />
+                      )}
                     </motion.div>
 
                     <div>
@@ -427,20 +530,11 @@ export default function DraftDemo() {
                         Here&rsquo;s the direction.
                       </p>
                       <p className="mt-3 text-[15px] leading-relaxed text-muted">
-                        A rough concept, not the finished book. The real thing
-                        gets custom typography, original artwork, print-ready
-                        files — and, if you want it, the author brand and launch
-                        video that go around the book.
+                        {resultCopy.blurb}
                       </p>
 
                       <ul className="mt-5 space-y-2.5">
-                        {[
-                          "Full cover: front, spine and back",
-                          "Interior layout your reader forgets is there",
-                          "Upload-ready files for KDP, IngramSpark and Lulu",
-                          "An author brand that carries to book two",
-                          "A trailer and reels cut for the scroll",
-                        ].map((item) => (
+                        {resultCopy.points.map((item) => (
                           <li key={item} className="flex items-start gap-2.5">
                             <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                             <span className="text-[14px] text-ink/80">{item}</span>
@@ -473,8 +567,8 @@ export default function DraftDemo() {
 
         <Reveal delay={0.2}>
           <p className="mx-auto mt-6 max-w-xl text-center text-[13px] text-muted">
-            Previews are illustrative concepts. Your real cover is designed by a
-            human who reads your manuscript first.
+            Previews are illustrative concepts. The real thing is made by a
+            human who reads, watches or listens to your work first.
           </p>
         </Reveal>
       </div>

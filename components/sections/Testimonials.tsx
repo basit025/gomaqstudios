@@ -43,15 +43,15 @@ const TESTIMONIALS = [
   },
   {
     quote:
-      "They built a whole author identity, not just a cover. Book three now looks like it belongs with books one and two, which is all I wanted.",
+      "I came for a cover and left with a whole identity. Book three now looks like it belongs with books one and two, and my socials finally match.",
     name: "Tomás Herrera",
-    book: "Series Fiction",
+    book: "Author branding",
   },
   {
     quote:
-      "The trailer they cut got more preorders in a week than six months of me posting about it on my own.",
+      "I hired them only for video. The trailer and the reels got more preorders in a week than six months of me posting on my own.",
     name: "Ruth Adeyemi",
-    book: "Self-Help",
+    book: "Trailer & social cuts",
   },
   {
     quote:
@@ -104,7 +104,7 @@ export default function Testimonials() {
         <SectionHeading
           eyebrow="Authors, in their words"
           title="The part we are proudest of."
-          subtitle="Placeholder quotes for now — real ones from real authors go here."
+          subtitle="Authors who came for a cover, a brand, or a launch video. Placeholder quotes for now — real ones go here."
         />
 
         {/* ---------- Desktop / tablet grid ---------- */}

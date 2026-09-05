@@ -47,7 +47,20 @@ export const socials = [
   { label: "LinkedIn", href: "#", icon: "linkedin" as const },
 ];
 
-/** Book genres — shared by the 100-Minute Draft widget and the contact form. */
+/**
+ * What the contact form offers. It used to ask for a BOOK GENRE, which told
+ * anyone arriving for branding or video that they were on the wrong form.
+ * Order matches the services section.
+ */
+export const services = [
+  "Book design (cover + interior)",
+  "Book formatting (KDP, IngramSpark, Lulu, eBook)",
+  "Author branding",
+  "Video editing (trailers, reels)",
+  "A full launch — more than one of the above",
+] as const;
+
+/** Book genres — used by the 100-Minute Draft widget. */
 export const genres = [
   "Fiction",
   "Non-Fiction",

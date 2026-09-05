@@ -103,7 +103,7 @@ export default function Pricing() {
         <SectionHeading
           eyebrow="Packages"
           title="Plain pricing, no surprises."
-          subtitle="Fixed prices, quoted up front. If your book needs something outside a package, we will say so before you pay anything."
+          subtitle="Fixed prices, quoted up front. Packages for a whole launch, single services if you only need one. If your project needs something else, we will say so before you pay anything."
         />
 
         <div className="mt-14 grid gap-6 sm:mt-16 lg:grid-cols-3 lg:gap-5">
@@ -135,7 +135,7 @@ export default function Pricing() {
                   <span className="font-display text-[44px] font-normal leading-none text-ink">
                     {tier.price}
                   </span>
-                  <span className="text-[13px] text-muted">per book</span>
+                  <span className="text-[13px] text-muted">per project</span>
                 </div>
 
                 {/* Turnaround and revisions — the first two questions an author

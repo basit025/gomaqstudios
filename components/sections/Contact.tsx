@@ -6,7 +6,7 @@ import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import Reveal from "@/components/ui/Reveal";
 import { ArrowRight, Check, Mail, socialIcons } from "@/components/ui/Icons";
-import { genres, site, socials } from "@/lib/site";
+import { services, site, socials } from "@/lib/site";
 import { Magnetic } from "@/components/ui/motion/pointer";
 
 /**
@@ -34,10 +34,10 @@ import { Magnetic } from "@/components/ui/motion/pointer";
  * ============================================================
  */
 
-type Values = { name: string; email: string; genre: string; message: string };
+type Values = { name: string; email: string; service: string; message: string };
 type Errors = Partial<Record<keyof Values, string>>;
 
-const EMPTY: Values = { name: "", email: "", genre: "", message: "" };
+const EMPTY: Values = { name: "", email: "", service: "", message: "" };
 
 /** Deliberately permissive — real verification happens when we email back. */
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -47,7 +47,7 @@ function validate(values: Values): Errors {
   if (values.name.trim().length < 2) errors.name = "Please tell us your name.";
   if (!EMAIL_RE.test(values.email.trim()))
     errors.email = "That email does not look right.";
-  if (!values.genre) errors.genre = "Pick the closest genre.";
+  if (!values.service) errors.service = "Pick the closest service.";
   if (values.message.trim().length < 10)
     errors.message = "A sentence or two about the book, please.";
   return errors;
@@ -87,7 +87,7 @@ export default function Contact() {
     e.preventDefault();
     const found = validate(values);
     setErrors(found);
-    setTouched({ name: true, email: true, genre: true, message: true });
+    setTouched({ name: true, email: true, service: true, message: true });
     if (Object.keys(found).length > 0) return;
 
     setSending(true);
@@ -241,7 +241,7 @@ export default function Contact() {
                   >
                     <Badge tone="soft">Free, honest quote</Badge>
                     <h3 className="mt-4 font-display text-2xl font-normal text-ink">
-                      Tell us about your book
+                      Tell us about your project
                     </h3>
 
                     <div className="mt-7 space-y-5">
@@ -301,37 +301,37 @@ export default function Contact() {
                         )}
                       </div>
 
-                      {/* Genre */}
+                      {/* Service — replaces the old "book genre" question */}
                       <div>
                         <label
-                          htmlFor="genre"
+                          htmlFor="service"
                           className="mb-2 block text-[13px] font-semibold text-ink"
                         >
-                          Book genre
+                          What do you need?
                         </label>
                         <select
-                          id="genre"
-                          name="genre"
-                          value={values.genre}
-                          onChange={(e) => setField("genre", e.target.value)}
-                          onBlur={() => blur("genre")}
-                          aria-invalid={Boolean(errors.genre && touched.genre)}
-                          aria-describedby={errors.genre && touched.genre ? "genre-error" : undefined}
-                          className={`${fieldClass("genre")} select-chevron appearance-none bg-[length:18px] bg-[right_1rem_center] bg-no-repeat pr-11 ${
-                            values.genre ? "text-ink" : "text-muted/70"
+                          id="service"
+                          name="service"
+                          value={values.service}
+                          onChange={(e) => setField("service", e.target.value)}
+                          onBlur={() => blur("service")}
+                          aria-invalid={Boolean(errors.service && touched.service)}
+                          aria-describedby={errors.service && touched.service ? "service-error" : undefined}
+                          className={`${fieldClass("service")} select-chevron appearance-none bg-[length:18px] bg-[right_1rem_center] bg-no-repeat pr-11 ${
+                            values.service ? "text-ink" : "text-muted/70"
                           }`}
                         >
                           <option value="">Choose the closest fit</option>
-                          {genres.map((g) => (
+                          {services.map((g) => (
                             <option key={g} value={g}>
                               {g}
                             </option>
                           ))}
                           <option value="Other">Something else</option>
                         </select>
-                        {errors.genre && touched.genre && (
-                          <p id="genre-error" className="mt-1.5 text-[13px] text-primary-dark">
-                            {errors.genre}
+                        {errors.service && touched.service && (
+                          <p id="service-error" className="mt-1.5 text-[13px] text-primary-dark">
+                            {errors.service}
                           </p>
                         )}
                       </div>
@@ -342,7 +342,7 @@ export default function Contact() {
                           htmlFor="message"
                           className="mb-2 block text-[13px] font-semibold text-ink"
                         >
-                          About the book
+                          About the project
                         </label>
                         <textarea
                           id="message"
@@ -355,7 +355,7 @@ export default function Contact() {
                           aria-describedby={
                             errors.message && touched.message ? "message-error" : undefined
                           }
-                          placeholder="Word count, where you are in the process, and what you need help with."
+                          placeholder="Where you are in the process, and what you need help with. Word count, page count or runtime if you have it."
                           className={`${fieldClass("message")} resize-y`}
                         />
                         {errors.message && touched.message && (

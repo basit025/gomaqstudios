@@ -2,6 +2,8 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import BookCover from "@/components/ui/BookCover";
+import BrandMark from "@/components/ui/BrandMark";
+import VideoFrame from "@/components/ui/VideoFrame";
 import Button from "@/components/ui/Button";
 import { ArrowRight } from "@/components/ui/Icons";
 import { Drift, Magnetic, Spotlight } from "@/components/ui/motion/pointer";
@@ -59,29 +61,32 @@ type Stat =
 const HEADLINE_WORDS = ["book", "brand", "video", "launch"] as const;
 
 /**
- * Cover mockups floating in the margins either side of the hero copy.
+ * Work floating in the margins either side of the hero copy.
  *
  * The hero column is capped at 768px, so on a wide screen there was a few
  * hundred pixels of dead space down both sides. Rather than fill it with
- * abstract shapes, it shows the actual product — so the space earns its keep.
+ * abstract shapes, it shows the actual product.
  *
- * Only rendered at xl and above: below 1280px the margins are narrower than
- * the cards, and they would collide with the headline.
+ * All four were book covers at first, which meant the very first thing a
+ * visitor saw — before a word of copy — was a shelf of books. It now shows a
+ * cover, a brand board and a trailer frame, so the range is visible in the
+ * first glance rather than argued for further down the page.
+ *
+ * Only rendered at xl and above. Each item's `side offset + width` is kept
+ * under 256px: that is the margin available at 1280px, the xl breakpoint
+ * itself, where a collision with the headline would first appear.
  * Each drifts a different distance with the cursor, which is what reads as
  * depth rather than as four stickers.
  */
-const FLOATING_COVERS = [
-  // Offsets are constrained so that `side offset + card width` stays under the
-  // side margin at the xl breakpoint itself (1280px leaves 256px a side), or
-  // the cards clip the text column on exactly that width.
-  { title: "The Salt in Her Letters", genre: "Fiction", variant: "paper" as const,
-    pos: "left-[2%] top-[22%] w-[146px] -rotate-[9deg]", drift: 34, float: 11, delay: 0.5 },
-  { title: "Nine Winters North", genre: "Memoir", variant: "ember" as const,
-    pos: "left-[7%] top-[60%] w-[118px] rotate-[7deg]", drift: 20, float: 13, delay: 0.75 },
-  { title: "Quiet Systems", genre: "Non-Fiction", variant: "ink" as const,
-    pos: "right-[3%] top-[18%] w-[136px] rotate-[8deg]", drift: 40, float: 9.5, delay: 0.62 },
-  { title: "Small Hours", genre: "Poetry", variant: "paper" as const,
-    pos: "right-[7%] top-[56%] w-[128px] -rotate-[6deg]", drift: 24, float: 12, delay: 0.88 },
+const FLOATING_WORK = [
+  { media: "cover" as const, title: "The Salt in Her Letters", genre: "Fiction", variant: "paper" as const,
+    pos: "left-[2%] top-[20%] w-[146px] -rotate-[9deg]", drift: 34, float: 11, delay: 0.5 },
+  { media: "video" as const, title: "Begin Again, Better", genre: "Launch trailer", variant: "ink" as const,
+    pos: "left-[5%] top-[58%] w-[168px] rotate-[6deg]", drift: 20, float: 13, delay: 0.75 },
+  { media: "cover" as const, title: "Quiet Systems", genre: "Non-Fiction", variant: "ink" as const,
+    pos: "right-[3%] top-[16%] w-[136px] rotate-[8deg]", drift: 40, float: 9.5, delay: 0.62 },
+  { media: "brand" as const, title: "Harrow & Vale", genre: "Author identity", variant: "ember" as const,
+    pos: "right-[7%] top-[56%] w-[130px] -rotate-[6deg]", drift: 24, float: 12, delay: 0.88 },
 ];
 
 const trustStats: Stat[] = [
@@ -167,7 +172,7 @@ export default function Hero() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10 hidden xl:block"
       >
-        {FLOATING_COVERS.map((cover) => (
+        {FLOATING_WORK.map((cover) => (
           <Drift key={cover.title} distance={cover.drift} className="absolute inset-0">
             <motion.div
               data-hero-cover=""
@@ -180,12 +185,30 @@ export default function Hero() {
                 animate={reduced ? undefined : { y: [0, -14, 0] }}
                 transition={{ duration: cover.float, repeat: Infinity, ease: "easeInOut" }}
               >
-                <BookCover
-                  title={cover.title}
-                  genre={cover.genre}
-                  variant={cover.variant}
-                  className="opacity-[0.72] shadow-lift"
-                />
+                {cover.media === "cover" && (
+                  <BookCover
+                    title={cover.title}
+                    genre={cover.genre}
+                    variant={cover.variant}
+                    className="opacity-[0.72] shadow-lift"
+                  />
+                )}
+                {cover.media === "brand" && (
+                  <BrandMark
+                    name={cover.title}
+                    kind={cover.genre}
+                    variant={cover.variant}
+                    className="opacity-[0.72]"
+                  />
+                )}
+                {cover.media === "video" && (
+                  <VideoFrame
+                    title={cover.title}
+                    kind={cover.genre}
+                    ratio="wide"
+                    className="opacity-[0.72]"
+                  />
+                )}
               </motion.div>
             </motion.div>
           </Drift>

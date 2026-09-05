@@ -33,20 +33,20 @@ import StepNumber from "@/components/ui/StepNumber";
  */
 const STEPS = [
   {
-    title: "Share your manuscript",
-    body: "Send the file and tell us what the book is trying to do. That is the whole brief.",
+    title: "Send us what you have",
+    body: "A manuscript, a series, a pile of footage. Tell us what it is trying to do — that is the whole brief.",
   },
   {
-    title: "We design & format",
-    body: "Cover concepts, interior typesetting and store-ready files, built together so nothing clashes.",
+    title: "We make it",
+    body: "Covers, layouts, identity or edit — built together so the book, the brand and the video all agree.",
   },
   {
     title: "You review & revise",
     body: "Two full rounds of changes. We keep going until it looks like the book you pictured.",
   },
   {
-    title: "Publish everywhere",
-    body: "Final files for KDP, IngramSpark, Lulu and eBook, packaged and labelled for upload.",
+    title: "Ship it everywhere",
+    body: "Store-ready files for KDP, IngramSpark and Lulu; brand kits; video sized for every platform.",
   },
 ];
 
@@ -59,7 +59,7 @@ export default function HowItWorks() {
         <SectionHeading
           eyebrow="How it works"
           title="Four steps, no mystery."
-          subtitle="You stay the author. We handle everything that happens between the last sentence and the upload button."
+          subtitle="Same four steps whether you need a cover, a whole author brand, or the video around it. You stay the author; we handle the rest."
         />
 
         <div className="relative mx-auto mt-14 max-w-2xl sm:mt-16 lg:max-w-4xl">
