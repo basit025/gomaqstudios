@@ -21,8 +21,8 @@
   --color-primary-dark: #8f3209;   /* rust — hover / pressed states       */
   --color-primary-light: #fdece1;  /* warm tint — section backgrounds     */
   --color-on-primary: #ffffff;     /* text/icons sitting ON primary       */
-  --color-base: #ffffff;           /* page background                     */
-  --color-surface: #ffffff;        /* cards, header, raised panels        */
+  --color-base: #fbf8f5;           /* page — warm paper                   */
+  --color-surface: #ffffff;        /* cards, header, panels — pure white  */
   --color-surface-2: #f4f1ef;      /* inset wells, placeholder fills      */
   --color-ink: #2b211c;            /* charcoal-brown body text (not black)*/
   --color-muted: #7a6f68;          /* warm gray — secondary text          */
@@ -32,7 +32,7 @@
   --color-primary-dark-rgb: 143 50 9;
   --color-primary-light-rgb: 253 236 225;
   --color-on-primary-rgb: 255 255 255;
-  --color-base-rgb: 255 255 255;
+  --color-base-rgb: 251 248 245;
   --color-surface-rgb: 255 255 255;
   --color-surface-2-rgb: 244 241 239;
   --color-ink-rgb: 43 33 28;

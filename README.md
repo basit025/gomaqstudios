@@ -158,10 +158,10 @@ follows — `tailwind.config.ts` only maps those variables onto Tailwind names.
 | `primary` | `#C1440E` | CTAs, accents, numerals |
 | `primary-dark` | `#8F3209` | hover / pressed |
 | `primary-light` | `#FDECE1` | section tints |
-| `base` | `#FFFFFF` | page background |
+| `base` | `#FBF8F5` | page background — warm paper |
 | `ink` | `#2B211C` | body text (not pure black) |
 | `muted` | `#7A6F68` | secondary text |
-| `surface` | `#FFFFFF` | cards, header, raised panels |
+| `surface` | `#FFFFFF` | cards, header, raised panels — pure white, so they lift off the page |
 | `surface-2` | `#F4F1EF` | inset wells, placeholder fills |
 | `on-primary` | `#FFFFFF` | text/icons sitting **on** primary |
 | `line` | `#ECE3DD` | hairline borders |
@@ -294,6 +294,17 @@ Both are about contrast, not taste:
 Measured across both themes — nav links, headings, muted body, eyebrows, text
 links, pills, footer: **no AA failures in either**. The filled primary button
 is 5.12:1 in light and 5.89:1 in dark.
+
+### `base` and `surface` are not the same colour
+
+In light mode the page is warm paper (`#FBF8F5`) and cards are pure white
+(`#FFFFFF`), so panels lift off the background instead of dissolving into it.
+
+That distinction matters when you write gradients: **fade to the colour of the
+thing you are sitting on.** The ticker band is `surface`, so its marquee edge
+fades take a `fadeToken` naming `--color-surface-rgb`; the demo and contact
+sections sit on the page, so theirs use `from-base`. Getting this wrong shows
+up as a discoloured strip along the fade.
 
 ### The three things that must NOT flip
 

@@ -234,6 +234,14 @@ type MarqueeProps = {
   className?: string;
   /** Seconds for one full loop. Higher = slower. */
   speed?: number;
+  /**
+   * CSS variable holding the RGB channels the edges should fade INTO. It must
+   * match the background of whatever the marquee sits on, or the fades tint
+   * against it — which is exactly what happened once `base` became warm paper
+   * while the ticker band stayed pure white. Naming the token rather than
+   * hardcoding a colour also keeps the fade correct in dark mode.
+   */
+  fadeToken?: string;
 };
 
 /**
@@ -241,8 +249,15 @@ type MarqueeProps = {
  * so the seam is invisible. Pauses on hover so anyone who wants to read it
  * can. Pure CSS animation — no JS runs while it loops.
  */
-export function Marquee({ items, className = "", speed = 38 }: MarqueeProps) {
+export function Marquee({
+  items,
+  className = "",
+  speed = 38,
+  fadeToken = "--color-surface-rgb",
+}: MarqueeProps) {
   const run = [...items, ...items];
+  const fade = (dir: string) =>
+    `linear-gradient(to ${dir}, rgb(var(${fadeToken})), rgb(var(${fadeToken}) / 0))`;
 
   return (
     <div
@@ -252,11 +267,13 @@ export function Marquee({ items, className = "", speed = 38 }: MarqueeProps) {
       {/* Fade the band into the page at both ends. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-base to-transparent sm:w-32"
+        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 sm:w-32"
+        style={{ backgroundImage: fade("right") }}
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-base to-transparent sm:w-32"
+        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 sm:w-32"
+        style={{ backgroundImage: fade("left") }}
       />
 
       <div
