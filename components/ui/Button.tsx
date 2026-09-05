@@ -10,13 +10,13 @@ const base =
 const variants: Record<Variant, string> = {
   // Solid burnt orange — the one true CTA.
   primary:
-    "bg-primary text-white shadow-ember hover:bg-primary-dark hover:-translate-y-0.5 active:translate-y-0 active:bg-primary-dark",
+    "bg-primary text-on-primary shadow-ember hover:bg-primary-dark hover:-translate-y-0.5 active:translate-y-0 active:bg-primary-dark",
   // Transparent with a hairline — sits beside the primary CTA.
   ghost:
     "bg-transparent text-ink ring-1 ring-inset ring-ink/15 hover:ring-primary hover:text-primary hover:-translate-y-0.5 active:translate-y-0",
   // Orange hairline on white — used inside light-orange panels.
   outline:
-    "bg-white text-primary ring-1 ring-inset ring-primary/30 hover:ring-primary hover:bg-primary-light active:bg-primary-light",
+    "bg-surface text-primary ring-1 ring-inset ring-primary/30 hover:ring-primary hover:bg-primary-light active:bg-primary-light",
   // Inline text CTA with a sliding arrow (see `<ArrowRight/>` usage).
   link: "text-primary hover:text-primary-dark p-0 rounded-none",
 };

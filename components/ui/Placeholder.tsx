@@ -22,7 +22,7 @@ export default function Placeholder({
   const tones = {
     orange:
       "bg-primary-light text-primary-dark/70 border-primary/20 [--dash:rgb(var(--color-primary-rgb)/0.18)]",
-    neutral: "bg-[#F4F1EF] text-muted border-line [--dash:rgb(var(--color-muted-rgb)/0.2)]",
+    neutral: "bg-surface-2 text-muted border-line [--dash:rgb(var(--color-muted-rgb)/0.2)]",
   } as const;
 
   return (

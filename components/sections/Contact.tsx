@@ -56,7 +56,7 @@ function validate(values: Values): Errors {
 const inputBase =
   // Fields lift very slightly and warm on focus, so the active one is
   // obvious without a heavy outline.
-  "w-full rounded-xl border bg-white px-4 py-3.5 text-[15px] text-ink placeholder:text-muted/70 transition-all duration-300 hover:border-primary/40 focus:-translate-y-0.5 focus:shadow-soft focus:outline-none focus:ring-2 focus:ring-primary/25";
+  "w-full rounded-xl border bg-surface px-4 py-3.5 text-[15px] text-ink placeholder:text-muted/70 transition-all duration-300 hover:border-primary/40 focus:-translate-y-0.5 focus:shadow-soft focus:outline-none focus:ring-2 focus:ring-primary/25";
 
 export default function Contact() {
   const [values, setValues] = useState<Values>(EMPTY);
@@ -108,7 +108,7 @@ export default function Contact() {
     <section id="contact" className="relative overflow-hidden py-20 sm:py-24 lg:py-32">
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-gradient-to-b from-white via-primary-light/50 to-primary-light/70"
+        className="absolute inset-0 -z-10 bg-gradient-to-b from-base via-primary-light/50 to-primary-light/70"
       />
 
       <div className="shell">
@@ -164,7 +164,7 @@ export default function Contact() {
                         <a
                           href={social.href}
                           aria-label={social.label}
-                          className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-ink ring-1 ring-inset ring-line transition-all duration-300 hover:-translate-y-1 hover:scale-110 hover:bg-primary hover:text-white hover:ring-primary"
+                          className="flex h-11 w-11 items-center justify-center rounded-full bg-surface text-ink ring-1 ring-inset ring-line transition-all duration-300 hover:-translate-y-1 hover:scale-110 hover:bg-primary hover:text-on-primary hover:ring-primary"
                         >
                           <Icon className="h-[18px] w-[18px]" />
                         </a>
@@ -178,7 +178,7 @@ export default function Contact() {
 
           {/* ---------- Form ---------- */}
           <Reveal delay={0.1}>
-            <div className="rounded-[24px] border border-line bg-white p-6 shadow-lift sm:p-9">
+            <div className="rounded-[24px] border border-line bg-surface p-6 shadow-lift sm:p-9">
               <AnimatePresence mode="wait">
                 {sent ? (
                   /* ---------- Success state ---------- */
@@ -192,7 +192,7 @@ export default function Contact() {
                     aria-live="polite"
                   >
                     <motion.span
-                      className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white"
+                      className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary text-on-primary"
                       initial={{ scale: 0.6, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ delay: 0.1, type: "spring", stiffness: 260, damping: 18 }}
@@ -317,13 +317,9 @@ export default function Contact() {
                           onBlur={() => blur("genre")}
                           aria-invalid={Boolean(errors.genre && touched.genre)}
                           aria-describedby={errors.genre && touched.genre ? "genre-error" : undefined}
-                          className={`${fieldClass("genre")} appearance-none bg-[length:18px] bg-[right_1rem_center] bg-no-repeat pr-11 ${
+                          className={`${fieldClass("genre")} select-chevron appearance-none bg-[length:18px] bg-[right_1rem_center] bg-no-repeat pr-11 ${
                             values.genre ? "text-ink" : "text-muted/70"
                           }`}
-                          style={{
-                            backgroundImage:
-                              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237A6F68' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E\")",
-                          }}
                         >
                           <option value="">Choose the closest fit</option>
                           {genres.map((g) => (

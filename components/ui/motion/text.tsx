@@ -252,11 +252,11 @@ export function Marquee({ items, className = "", speed = 38 }: MarqueeProps) {
       {/* Fade the band into the page at both ends. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-white to-transparent sm:w-32"
+        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-base to-transparent sm:w-32"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-white to-transparent sm:w-32"
+        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-base to-transparent sm:w-32"
       />
 
       <div

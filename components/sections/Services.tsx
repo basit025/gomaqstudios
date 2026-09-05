@@ -91,7 +91,7 @@ export default function Services() {
                         paragraph into a 194px column, which is the same
                         congestion this layout exists to fix. */}
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-5">
-                      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-light text-primary transition-all duration-300 group-hover:-rotate-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
+                      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-light text-primary transition-all duration-300 group-hover:-rotate-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-on-primary">
                         <Icon className="h-6 w-6" />
                       </span>
 

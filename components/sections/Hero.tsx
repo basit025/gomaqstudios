@@ -316,7 +316,7 @@ export default function Hero() {
                       },
                     }
               }
-              className="bg-white"
+              className="bg-surface"
             >
               <Spotlight
                 className="h-full transition-colors duration-300 hover:bg-primary-light/40"

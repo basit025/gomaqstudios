@@ -27,7 +27,7 @@ export default function Card({
   spotlight = false,
 }: Props) {
   const classes = [
-    "rounded-2xl border border-line bg-white",
+    "rounded-2xl border border-line bg-surface",
     interactive &&
       "transition-all duration-300 hover:border-primary/60 hover:shadow-lift",
     className,

@@ -10,7 +10,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-line bg-white">
+    <footer className="border-t border-line bg-surface">
       <div className="shell py-14 sm:py-16">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr] md:gap-16">
           {/* Brand */}
@@ -36,7 +36,7 @@ export default function Footer() {
                     <a
                       href={social.href}
                       aria-label={social.label}
-                      className="flex h-10 w-10 items-center justify-center rounded-full text-muted ring-1 ring-inset ring-line transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary hover:text-white hover:ring-primary"
+                      className="flex h-10 w-10 items-center justify-center rounded-full text-muted ring-1 ring-inset ring-line transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary hover:text-on-primary hover:ring-primary"
                     >
                       <Icon className="h-4 w-4" />
                     </a>

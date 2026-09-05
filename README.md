@@ -161,6 +161,9 @@ follows — `tailwind.config.ts` only maps those variables onto Tailwind names.
 | `base` | `#FFFFFF` | page background |
 | `ink` | `#2B211C` | body text (not pure black) |
 | `muted` | `#7A6F68` | secondary text |
+| `surface` | `#FFFFFF` | cards, header, raised panels |
+| `surface-2` | `#F4F1EF` | inset wells, placeholder fills |
+| `on-primary` | `#FFFFFF` | text/icons sitting **on** primary |
 | `line` | `#ECE3DD` | hairline borders |
 
 Each is also exposed as RGB channels (`--color-primary-rgb`) so Tailwind
@@ -262,6 +265,58 @@ a 900ms timer and shows success.
 
 The `TODO` block at the top of that file has the exact `fetch` call to drop in
 once you create `app/api/contact/route.ts`.
+
+---
+
+## Dark mode
+
+Toggle sits in the header. It cycles **system → light → dark → system**, with
+system as the default, so a visitor whose OS is in dark mode gets a dark site
+without touching anything. The choice is stored in `localStorage` under
+`gomaq-theme`.
+
+Because every colour resolves through the CSS variables, the dark theme is
+almost entirely a second block of values in
+[`app/globals.css`](app/globals.css) — components need no `dark:` variants.
+
+### Two deliberate inversions
+
+Both are about contrast, not taste:
+
+1. **`primary` gets lighter in dark mode** (`#C1440E` → `#E2703C`). The light
+   orange-red only reaches **3.7:1** on a near-black ground, which fails AA for
+   the small uppercase eyebrows and 14px text links it is used for. The
+   lighter tone reaches **5.9:1**.
+2. **`on-primary` flips from white to near-black.** White on that lighter
+   orange would fall to about **3:1**. Dark text on it measures **5.9:1**, so
+   filled orange buttons carry dark labels in dark mode.
+
+Measured across both themes — nav links, headings, muted body, eyebrows, text
+links, pills, footer: **no AA failures in either**. The filled primary button
+is 5.12:1 in light and 5.89:1 in dark.
+
+### The three things that must NOT flip
+
+Everything else follows the tokens, but these are pinned on purpose:
+
+- **Book covers** ([`ui/BookCover.tsx`](components/ui/BookCover.tsx)) use literal
+  hex, not tokens. A cover is artwork — a printed book looks the same in either
+  theme. Using `bg-ink` would have turned the "ink" cover near-white in dark
+  mode with white text on it.
+- **The portfolio hover overlay** and the mobile-menu scrim use `black/…`
+  rather than `ink/…`, for the same reason: `ink` inverts, which would have
+  turned a dark scrim into a white wash.
+- **The `<select>` chevron** is an inline SVG data-URI, which cannot read a CSS
+  variable. It has a `.select-chevron` class in `globals.css` with a
+  per-theme stroke colour — keep those in step with `--color-muted`.
+
+### No flash
+
+A blocking inline script in [`app/layout.tsx`](app/layout.tsx) sets the class
+before first paint. It has to be inline and blocking; anything waiting on React
+runs after the browser has already painted white. The logo swaps via a CSS
+`dark:` variant rather than JS state, so the right mark is in the first paint
+too — that is what `logo-light.png` was generated for.
 
 ---
 

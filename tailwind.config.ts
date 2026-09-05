@@ -10,6 +10,8 @@ import type { Config } from "tailwindcss";
  * To rebrand the whole site, change the hex values in `app/globals.css` only.
  */
 const config: Config = {
+  // Dark theme is opted into by adding `.dark` to <html>.
+  darkMode: "class",
   content: [
     "./app/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -23,6 +25,9 @@ const config: Config = {
           light: "rgb(var(--color-primary-light-rgb) / <alpha-value>)",
         },
         base: "rgb(var(--color-base-rgb) / <alpha-value>)",
+        surface: "rgb(var(--color-surface-rgb) / <alpha-value>)",
+        "surface-2": "rgb(var(--color-surface-2-rgb) / <alpha-value>)",
+        "on-primary": "rgb(var(--color-on-primary-rgb) / <alpha-value>)",
         ink: "rgb(var(--color-ink-rgb) / <alpha-value>)",
         muted: "rgb(var(--color-muted-rgb) / <alpha-value>)",
         line: "rgb(var(--color-line-rgb) / <alpha-value>)",

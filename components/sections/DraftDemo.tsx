@@ -127,7 +127,7 @@ export default function DraftDemo() {
       {/* Section-wide tint so this block reads as the page centrepiece. */}
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 top-0 -z-10 h-full bg-gradient-to-b from-white via-primary-light/40 to-white"
+        className="absolute inset-x-0 top-0 -z-10 h-full bg-gradient-to-b from-base via-primary-light/40 to-base"
       />
 
       <div className="shell">
@@ -151,7 +151,7 @@ export default function DraftDemo() {
 
         {/* ---------- The widget ---------- */}
         <Reveal delay={0.15} className="mt-12 sm:mt-14">
-          <div className="mx-auto max-w-4xl overflow-hidden rounded-[28px] border border-primary/25 bg-white shadow-lift">
+          <div className="mx-auto max-w-4xl overflow-hidden rounded-[28px] border border-primary/25 bg-surface shadow-lift">
             {/* Stepper rail */}
             <div className="flex items-center gap-3 border-b border-line bg-primary-light/60 px-5 py-4 sm:px-8">
               {["Genre", "Title", "Preview"].map((label, i) => (
@@ -160,8 +160,8 @@ export default function DraftDemo() {
                     <span
                       className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[11px] font-bold transition-colors duration-300 ${
                         i <= stepIndex
-                          ? "bg-primary text-white"
-                          : "bg-white text-muted ring-1 ring-inset ring-line"
+                          ? "bg-primary text-on-primary"
+                          : "bg-surface text-muted ring-1 ring-inset ring-line"
                       }`}
                     >
                       {i < stepIndex ? <Check className="h-3.5 w-3.5" /> : i + 1}
@@ -212,7 +212,7 @@ export default function DraftDemo() {
                               className={`h-full rounded-2xl border transition-colors duration-200 ${
                                 active
                                   ? "border-primary bg-primary-light shadow-ember"
-                                  : "border-line bg-white hover:border-primary/60 hover:shadow-soft"
+                                  : "border-line bg-surface hover:border-primary/60 hover:shadow-soft"
                               }`}
                             >
                           <button
@@ -224,8 +224,8 @@ export default function DraftDemo() {
                             <span
                               className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 group-hover:-rotate-6 group-hover:scale-110 ${
                                 active
-                                  ? "bg-primary text-white"
-                                  : "bg-primary-light text-primary group-hover:bg-primary group-hover:text-white"
+                                  ? "bg-primary text-on-primary"
+                                  : "bg-primary-light text-primary group-hover:bg-primary group-hover:text-on-primary"
                               }`}
                             >
                               <Icon className="h-5 w-5" />
@@ -293,7 +293,7 @@ export default function DraftDemo() {
                         maxLength={60}
                         autoComplete="off"
                         placeholder="e.g. The Long Way Home"
-                        className="w-full rounded-xl border border-line bg-white px-4 py-4 font-display text-lg text-ink placeholder:font-sans placeholder:text-base placeholder:text-muted/70 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/25"
+                        className="w-full rounded-xl border border-line bg-surface px-4 py-4 font-display text-lg text-ink placeholder:font-sans placeholder:text-base placeholder:text-muted/70 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/25"
                       />
 
                       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -362,10 +362,10 @@ export default function DraftDemo() {
                               <span
                                 className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-colors duration-300 ${
                                   done
-                                    ? "bg-primary text-white"
+                                    ? "bg-primary text-on-primary"
                                     : active
                                       ? "bg-primary-light text-primary"
-                                      : "bg-[#F4F1EF] text-muted"
+                                      : "bg-surface-2 text-muted"
                                 }`}
                               >
                                 {done ? (

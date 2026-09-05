@@ -7,12 +7,23 @@
    Single source of truth for the palette. Change here to rebrand.
    Hex values are documented alongside the RGB channel triplets
    that Tailwind consumes (channels enable `bg-primary/10` etc).
+
+   DARK MODE lives in the `.dark` block below. Because every colour
+   in the app resolves through these variables, the dark theme is
+   almost entirely a matter of swapping values here — components
+   should not need `dark:` variants except where a colour must NOT
+   flip (see the notes on those cases).
    ============================================================ */
 :root {
+  color-scheme: light;
+
   --color-primary: #c1440e;        /* burnt orange — CTAs, accents        */
   --color-primary-dark: #8f3209;   /* rust — hover / pressed states       */
   --color-primary-light: #fdece1;  /* warm tint — section backgrounds     */
+  --color-on-primary: #ffffff;     /* text/icons sitting ON primary       */
   --color-base: #ffffff;           /* page background                     */
+  --color-surface: #ffffff;        /* cards, header, raised panels        */
+  --color-surface-2: #f4f1ef;      /* inset wells, placeholder fills      */
   --color-ink: #2b211c;            /* charcoal-brown body text (not black)*/
   --color-muted: #7a6f68;          /* warm gray — secondary text          */
   --color-line: #ece3dd;           /* hairline borders                    */
@@ -20,10 +31,55 @@
   --color-primary-rgb: 193 68 14;
   --color-primary-dark-rgb: 143 50 9;
   --color-primary-light-rgb: 253 236 225;
+  --color-on-primary-rgb: 255 255 255;
   --color-base-rgb: 255 255 255;
+  --color-surface-rgb: 255 255 255;
+  --color-surface-2-rgb: 244 241 239;
   --color-ink-rgb: 43 33 28;
   --color-muted-rgb: 122 111 104;
   --color-line-rgb: 236 227 221;
+}
+
+/* ------------------------------------------------------------
+   DARK THEME
+   Applied by adding `.dark` to <html> (see ThemeToggle and the
+   no-flash script in app/layout.tsx).
+
+   Two deliberate inversions, both about contrast rather than taste:
+
+   1. `primary` is LIGHTER than in light mode. #C1440E on a near-black
+      background only reaches 3.7:1, which fails AA for the small
+      uppercase eyebrows and text links it is used for. #E2703C reaches
+      5.9:1.
+   2. `on-primary` flips from white to near-black. White on the lighter
+      orange would drop to ~3:1; dark text on it reaches 5.9:1. So filled
+      orange buttons carry dark labels in dark mode, which is the normal
+      pattern for bright accent fills.
+   ------------------------------------------------------------ */
+.dark {
+  color-scheme: dark;
+
+  --color-primary: #e2703c;
+  --color-primary-dark: #f08a57;   /* hover goes LIGHTER on a dark ground */
+  --color-primary-light: #2b1c15;  /* the warm section tint, inverted     */
+  --color-on-primary: #17110e;
+  --color-base: #17110e;
+  --color-surface: #211915;
+  --color-surface-2: #2a211c;
+  --color-ink: #f5efea;
+  --color-muted: #a89a91;
+  --color-line: #372922;
+
+  --color-primary-rgb: 226 112 60;
+  --color-primary-dark-rgb: 240 138 87;
+  --color-primary-light-rgb: 43 28 21;
+  --color-on-primary-rgb: 23 17 14;
+  --color-base-rgb: 23 17 14;
+  --color-surface-rgb: 33 25 21;
+  --color-surface-2-rgb: 42 33 28;
+  --color-ink-rgb: 245 239 234;
+  --color-muted-rgb: 168 154 145;
+  --color-line-rgb: 55 41 34;
 }
 
 html {
@@ -35,6 +91,9 @@ html {
 
 body {
   background-color: rgb(var(--color-base-rgb));
+  /* Colour-only cross-fade when the theme flips. Kept off transform so it
+     never interferes with the motion primitives. */
+  transition: background-color 0.35s ease, color 0.35s ease;
   color: rgb(var(--color-ink-rgb));
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -72,6 +131,15 @@ body {
   .eyebrow {
     @apply inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary;
   }
+}
+
+/* Select chevron. Inline SVG cannot read a CSS variable, so the two themes
+   get their own baked-in stroke colour. Keep these in step with --color-muted. */
+.select-chevron {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237A6F68' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+.dark .select-chevron {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A89A91' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 }
 
 /* Thin, warm scrollbar for horizontal scroll areas (portfolio filters). */

@@ -51,7 +51,7 @@ export default function BackToTop() {
                 })
               }
               aria-label="Back to top"
-              className="group relative flex h-12 w-12 items-center justify-center rounded-full bg-white text-primary shadow-lift ring-1 ring-line transition-colors duration-300 hover:bg-primary hover:text-white hover:ring-primary"
+              className="group relative flex h-12 w-12 items-center justify-center rounded-full bg-surface text-primary shadow-lift ring-1 ring-line transition-colors duration-300 hover:bg-primary hover:text-on-primary hover:ring-primary"
             >
               {/* Scroll-progress ring. rotate -90 puts 0% at 12 o'clock. */}
               <svg

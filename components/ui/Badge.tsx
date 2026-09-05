@@ -11,8 +11,8 @@ type Props = {
 export default function Badge({ children, tone = "soft", className = "" }: Props) {
   const tones = {
     soft: "bg-primary-light text-primary-dark",
-    solid: "bg-primary text-white shadow-ember",
-    outline: "bg-white/80 text-ink ring-1 ring-inset ring-line backdrop-blur",
+    solid: "bg-primary text-on-primary shadow-ember",
+    outline: "bg-surface/80 text-ink ring-1 ring-inset ring-line backdrop-blur",
   } as const;
 
   return (

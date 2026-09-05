@@ -27,8 +27,17 @@ const skins: Record<
   Variant,
   { field: string; title: string; meta: string; rule: string; arc: string; spine: string }
 > = {
+  /**
+   * Colours are PINNED to literal values rather than theme tokens.
+   *
+   * A cover is artwork, not chrome: a printed book looks the same whichever
+   * theme the site is in. Using `bg-ink` here would flip the "ink" cover to
+   * near-white in dark mode and leave white text on it.
+   * These match the light-mode palette in globals.css — keep them in step if
+   * the brand colours change.
+   */
   ember: {
-    field: "bg-primary",
+    field: "bg-[#C1440E]",
     title: "text-white",
     meta: "text-white/70",
     rule: "bg-white/40",
@@ -36,19 +45,19 @@ const skins: Record<
     spine: "from-black/25 to-transparent",
   },
   paper: {
-    field: "bg-primary-light",
-    title: "text-ink",
-    meta: "text-primary-dark/70",
-    rule: "bg-primary/40",
-    arc: "border-primary/25",
-    spine: "from-primary-dark/20 to-transparent",
+    field: "bg-[#FDECE1]",
+    title: "text-[#2B211C]",
+    meta: "text-[#8F3209]/70",
+    rule: "bg-[#C1440E]/40",
+    arc: "border-[#C1440E]/25",
+    spine: "from-[#8F3209]/20 to-transparent",
   },
   ink: {
-    field: "bg-ink",
+    field: "bg-[#2B211C]",
     title: "text-white",
-    meta: "text-primary",
-    rule: "bg-primary",
-    arc: "border-primary/40",
+    meta: "text-[#C1440E]",
+    rule: "bg-[#C1440E]",
+    arc: "border-[#C1440E]/40",
     spine: "from-black/40 to-transparent",
   },
 };

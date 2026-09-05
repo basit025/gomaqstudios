@@ -29,7 +29,7 @@ const ITEMS = [
 
 export default function Ticker() {
   return (
-    <section aria-label="What we deliver" className="border-y border-line bg-white py-6">
+    <section aria-label="What we deliver" className="border-y border-line bg-surface py-6">
       <Marquee items={ITEMS} speed={42} />
     </section>
   );

@@ -21,7 +21,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable} ${script.variable}`}>
+    <html
+      lang="en"
+      className={`${display.variable} ${sans.variable} ${script.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        {/*
+          Sets the theme class BEFORE first paint, so a dark-mode visitor never
+          sees a white flash. This has to be a blocking inline script: anything
+          that waits for React would run after the browser has already painted.
+          Wrapped in try/catch because localStorage throws in some privacy
+          modes — falling back to the OS setting is the right behaviour there.
+          Keep the storage key in step with components/ui/ThemeToggle.tsx.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var c=localStorage.getItem('gomaq-theme');var d=c==='dark'||((!c||c==='system')&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('dark');}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body className="font-sans antialiased">
         <MotionProvider>{children}</MotionProvider>
       </body>

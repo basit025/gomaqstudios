@@ -112,7 +112,7 @@ export default function Pricing() {
               <Tilt className="h-full" max={5}>
               <Spotlight
                 intensity={tier.featured ? 0.16 : 0.1}
-                className={`relative flex h-full flex-col rounded-2xl border bg-white p-7 transition-all duration-300 sm:p-8 ${
+                className={`relative flex h-full flex-col rounded-2xl border bg-surface p-7 transition-all duration-300 sm:p-8 ${
                   tier.featured
                     ? "border-primary shadow-lift lg:scale-[1.045] lg:p-9"
                     : "border-line hover:border-primary/60 hover:shadow-soft"

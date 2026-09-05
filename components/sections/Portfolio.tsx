@@ -73,7 +73,7 @@ export default function Portfolio() {
                   className={`relative isolate shrink-0 rounded-full px-4 py-2 text-[13px] font-semibold transition-colors duration-200 ${
                     active
                       ? "text-white"
-                      : "bg-white text-ink/70 ring-1 ring-inset ring-line hover:text-primary hover:ring-primary/50"
+                      : "bg-surface text-ink/70 ring-1 ring-inset ring-line hover:text-primary hover:ring-primary/50"
                   }`}
                 >
                   {/* A single orange pill physically slides between tabs
@@ -122,13 +122,13 @@ export default function Portfolio() {
                       badge — otherwise the grid reads as covers only and the
                       video service disappears at a glance. */}
                   {project.category === "Video" && (
-                    <span className="pointer-events-none absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/95 text-primary shadow-soft backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
+                    <span className="pointer-events-none absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-surface/95 text-primary shadow-soft backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
                       <Play className="ml-0.5 h-4 w-4" />
                     </span>
                   )}
 
                   {/* Hover overlay — project name + genre. */}
-                  <div className="pointer-events-none absolute inset-0 flex flex-col justify-end rounded-l-[3px] rounded-r-xl bg-gradient-to-t from-ink/90 via-ink/35 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:p-5">
+                  <div className="pointer-events-none absolute inset-0 flex flex-col justify-end rounded-l-[3px] rounded-r-xl bg-gradient-to-t from-black/85 via-black/40 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:p-5">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-primary">
                     {project.category}
                   </p>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Logo from "@/components/ui/Logo";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 import Button from "@/components/ui/Button";
 import { Close, Menu, ArrowRight } from "@/components/ui/Icons";
 import { Magnetic } from "@/components/ui/motion/pointer";
@@ -45,7 +46,7 @@ export default function Header() {
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "border-b border-line bg-white/85 backdrop-blur-md"
+            ? "border-b border-line bg-surface/85 backdrop-blur-md"
             : "border-b border-transparent bg-transparent"
         }`}
       >
@@ -74,6 +75,8 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle />
+
             {/* CTA stays visible at every breakpoint, per spec. */}
             <Magnetic className="hidden sm:inline-flex" strength={0.35}>
               <Button href={cta.href} size="sm" className="group">
@@ -112,7 +115,7 @@ export default function Header() {
           <>
             <motion.div
               key="scrim"
-              className="fixed inset-0 z-50 bg-ink/40 backdrop-blur-sm lg:hidden"
+              className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm lg:hidden"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -124,7 +127,7 @@ export default function Header() {
               role="dialog"
               aria-modal="true"
               aria-label="Site menu"
-              className="fixed inset-y-0 right-0 z-50 flex w-[86%] max-w-sm flex-col bg-white shadow-lift lg:hidden"
+              className="fixed inset-y-0 right-0 z-50 flex w-[86%] max-w-sm flex-col bg-surface shadow-lift lg:hidden"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
@@ -132,6 +135,8 @@ export default function Header() {
             >
               <div className="flex h-[76px] items-center justify-between border-b border-line px-5">
                 <Logo />
+                <div className="flex items-center gap-2">
+                <ThemeToggle />
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
@@ -140,6 +145,7 @@ export default function Header() {
                 >
                   <Close className="h-5 w-5" />
                 </button>
+                </div>
               </div>
 
               <nav aria-label="Mobile" className="flex-1 overflow-y-auto px-5 py-6">
